@@ -57,7 +57,10 @@
                 "medication": {
                   "type": "string"
                 }
-              }
+              },
+              "required": [
+                "medication"
+              ]
             }
           },
           "familyHistory": {
@@ -77,7 +80,10 @@
                 "code": {
                   "type": "string"
                 }
-              }
+              },
+              "required": [
+                "code"
+              ]
             }
           },
           "allergies": {
@@ -88,19 +94,35 @@
                 "allergy": {
                   "type": "string"
                 }
-              }
+              },
+              "required": [
+                "allergy"
+              ]
             }
+          },
+          "eligibility": {
+            "type": "boolean"
+          },
+          "placeboReciever": {
+            "type": "boolean"
+          },
+          "currentTotalDoses": {
+            "type": "integer"
+          },
+          "currentDoseFid": {
+            "type": "string"
           },
           "visits": {
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
-                "patient": {
+                "prevDoseFid": {
                   "type": "string"
                 },
                 "dateTime": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "date-time"
                 },
                 "notes": {
                   "type": "string"
@@ -108,10 +130,19 @@
                 "hivViralLoad": {
                   "type": "string"
                 }
-              }
+              },
+              "required": [
+                "prevDoseFid",
+                "dateTime",
+                "hivViralLoad"
+              ]
             }
           }
-        }
+        },
+        "required": [
+          "uuid",
+          "icdHealthCodes"
+        ]
       }
     },
     "Drug": {
@@ -123,12 +154,23 @@
             "type": "boolean"
           },
           "batchNumber": {
+            "type": "integer"
+          },
+          "bid": {
             "type": "string"
           },
-          "id": {
+          "fid": {
+            "type": "string"
+          },
+          "patientUuid": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "placebo",
+          "batchNumber",
+          "bid"
+        ]
       }
     }
   }

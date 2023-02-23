@@ -197,8 +197,10 @@ enum Vendia_SyncMode {
 }
 
 input Self_Drug_ConditionInput_ {
-  batchNumber: Vendia_ModelStringInput_
-  id: Vendia_ModelStringInput_
+  batchNumber: Vendia_ModelIntInput_
+  bid: Vendia_ModelStringInput_
+  fid: Vendia_ModelStringInput_
+  patientUuid: Vendia_ModelStringInput_
   placebo: Vendia_ModelBooleanInput_
   _and: [Self_Drug_ConditionInput_]
   _or: [Self_Drug_ConditionInput_]
@@ -207,8 +209,10 @@ input Self_Drug_ConditionInput_ {
 
 input Self_Drug_FilterInput_ {
   _owner: Vendia_ModelStringInput_
-  batchNumber: Vendia_ModelStringInput_
-  id: Vendia_ModelStringInput_
+  batchNumber: Vendia_ModelIntInput_
+  bid: Vendia_ModelStringInput_
+  fid: Vendia_ModelStringInput_
+  patientUuid: Vendia_ModelStringInput_
   placebo: Vendia_ModelBooleanInput_
   _and: [Self_Drug_FilterInput_]
   _or: [Self_Drug_FilterInput_]
@@ -221,17 +225,21 @@ input Self_Drug_OrderInput_ {
 
 type Self_Drug {
   _id: ID!
-  batchNumber: String
-  id: String
-  placebo: Boolean
+  batchNumber: Int!
+  bid: String!
+  fid: String
+  patientUuid: String
+  placebo: Boolean!
   _acl: [Vendia_Acl!]
   _owner: String
 }
 
 type Self_Drug_Partial_ {
   _id: ID!
-  batchNumber: String
-  id: String
+  batchNumber: Int
+  bid: String
+  fid: String
+  patientUuid: String
   placebo: Boolean
   _acl: [Vendia_Acl!]
   _owner: String
@@ -259,20 +267,26 @@ type Self_Drug_Connection_ {
 }
 
 input Self_Drug_Input_ {
-  batchNumber: String
-  id: String
-  placebo: Boolean
+  batchNumber: Int!
+  bid: String!
+  fid: String
+  patientUuid: String
+  placebo: Boolean!
 }
 
 input Self_Drug_UpdateInput_ {
-  batchNumber: String
-  id: String
+  batchNumber: Int
+  bid: String
+  fid: String
+  patientUuid: String
   placebo: Boolean
 }
 
 input Self_Drug_PartialInput_ {
-  batchNumber: String
-  id: String
+  batchNumber: Int
+  bid: String
+  fid: String
+  patientUuid: String
   placebo: Boolean
 }
 
@@ -280,10 +294,13 @@ input Self_Patient_ConditionInput_ {
   address: Vendia_ModelStringInput_
   _allergiesItem: Self_Patient_allergies_allergiesItem_ConditionInput_
   bloodPressure: Vendia_ModelStringInput_
+  currentDoseFid: Vendia_ModelStringInput_
   _currentMedicationsItem: Self_Patient_currentMedications_currentMedicationsItem_ConditionInput_
+  currentTotalDoses: Vendia_ModelIntInput_
   currentlyEmployed: Vendia_ModelStringInput_
   currentlyInsured: Vendia_ModelStringInput_
   dob: Vendia_ModelStringInput_
+  eligibility: Vendia_ModelBooleanInput_
   familyHistory: Vendia_ModelStringInput_
   height: Vendia_ModelStringInput_
   _icdHealthCodesItem: Self_Patient_icdHealthCodes_icdHealthCodesItem_ConditionInput_
@@ -291,6 +308,7 @@ input Self_Patient_ConditionInput_ {
   name: Vendia_ModelStringInput_
   oxygenSaturation: Vendia_ModelStringInput_
   patientPicture: Vendia_ModelStringInput_
+  placeboReciever: Vendia_ModelBooleanInput_
   temperature: Vendia_ModelStringInput_
   uuid: Vendia_ModelStringInput_
   _visitsItem: Self_Patient_visits_visitsItem_ConditionInput_
@@ -305,10 +323,13 @@ input Self_Patient_FilterInput_ {
   address: Vendia_ModelStringInput_
   _allergiesItem: Self_Patient_allergies_allergiesItem_FilterInput_
   bloodPressure: Vendia_ModelStringInput_
+  currentDoseFid: Vendia_ModelStringInput_
   _currentMedicationsItem: Self_Patient_currentMedications_currentMedicationsItem_FilterInput_
+  currentTotalDoses: Vendia_ModelIntInput_
   currentlyEmployed: Vendia_ModelStringInput_
   currentlyInsured: Vendia_ModelStringInput_
   dob: Vendia_ModelStringInput_
+  eligibility: Vendia_ModelBooleanInput_
   familyHistory: Vendia_ModelStringInput_
   height: Vendia_ModelStringInput_
   _icdHealthCodesItem: Self_Patient_icdHealthCodes_icdHealthCodesItem_FilterInput_
@@ -316,6 +337,7 @@ input Self_Patient_FilterInput_ {
   name: Vendia_ModelStringInput_
   oxygenSaturation: Vendia_ModelStringInput_
   patientPicture: Vendia_ModelStringInput_
+  placeboReciever: Vendia_ModelBooleanInput_
   temperature: Vendia_ModelStringInput_
   uuid: Vendia_ModelStringInput_
   _visitsItem: Self_Patient_visits_visitsItem_FilterInput_
@@ -334,19 +356,23 @@ type Self_Patient {
   address: String
   allergies: [Self_Patient_allergies_allergiesItem]
   bloodPressure: String
+  currentDoseFid: String
   currentMedications: [Self_Patient_currentMedications_currentMedicationsItem]
+  currentTotalDoses: Int
   currentlyEmployed: String
   currentlyInsured: String
   dob: String
+  eligibility: Boolean
   familyHistory: String
   height: String
-  icdHealthCodes: [Self_Patient_icdHealthCodes_icdHealthCodesItem]
+  icdHealthCodes: [Self_Patient_icdHealthCodes_icdHealthCodesItem]!
   insuranceNumber: String
   name: String
   oxygenSaturation: String
   patientPicture: String
+  placeboReciever: Boolean
   temperature: String
-  uuid: String
+  uuid: String!
   visits: [Self_Patient_visits_visitsItem]
   weight: String
   _acl: [Vendia_Acl!]
@@ -358,10 +384,13 @@ type Self_Patient_Partial_ {
   address: String
   allergies: [Self_Patient_allergies_allergiesItem_Partial_]
   bloodPressure: String
+  currentDoseFid: String
   currentMedications: [Self_Patient_currentMedications_currentMedicationsItem_Partial_]
+  currentTotalDoses: Int
   currentlyEmployed: String
   currentlyInsured: String
   dob: String
+  eligibility: Boolean
   familyHistory: String
   height: String
   icdHealthCodes: [Self_Patient_icdHealthCodes_icdHealthCodesItem_Partial_]
@@ -369,6 +398,7 @@ type Self_Patient_Partial_ {
   name: String
   oxygenSaturation: String
   patientPicture: String
+  placeboReciever: Boolean
   temperature: String
   uuid: String
   visits: [Self_Patient_visits_visitsItem_Partial_]
@@ -402,19 +432,23 @@ input Self_Patient_Input_ {
   address: String
   allergies: [Self_Patient_allergies_allergiesItem_Input_]
   bloodPressure: String
+  currentDoseFid: String
   currentMedications: [Self_Patient_currentMedications_currentMedicationsItem_Input_]
+  currentTotalDoses: Int
   currentlyEmployed: String
   currentlyInsured: String
   dob: String
+  eligibility: Boolean
   familyHistory: String
   height: String
-  icdHealthCodes: [Self_Patient_icdHealthCodes_icdHealthCodesItem_Input_]
+  icdHealthCodes: [Self_Patient_icdHealthCodes_icdHealthCodesItem_Input_]!
   insuranceNumber: String
   name: String
   oxygenSaturation: String
   patientPicture: String
+  placeboReciever: Boolean
   temperature: String
-  uuid: String
+  uuid: String!
   visits: [Self_Patient_visits_visitsItem_Input_]
   weight: String
 }
@@ -423,10 +457,13 @@ input Self_Patient_UpdateInput_ {
   address: String
   allergies: [Self_Patient_allergies_allergiesItem_UpdateInput_]
   bloodPressure: String
+  currentDoseFid: String
   currentMedications: [Self_Patient_currentMedications_currentMedicationsItem_UpdateInput_]
+  currentTotalDoses: Int
   currentlyEmployed: String
   currentlyInsured: String
   dob: String
+  eligibility: Boolean
   familyHistory: String
   height: String
   icdHealthCodes: [Self_Patient_icdHealthCodes_icdHealthCodesItem_UpdateInput_]
@@ -434,6 +471,7 @@ input Self_Patient_UpdateInput_ {
   name: String
   oxygenSaturation: String
   patientPicture: String
+  placeboReciever: Boolean
   temperature: String
   uuid: String
   visits: [Self_Patient_visits_visitsItem_UpdateInput_]
@@ -444,10 +482,13 @@ input Self_Patient_PartialInput_ {
   address: String
   allergies: [Self_Patient_allergies_allergiesItem_PartialInput_]
   bloodPressure: String
+  currentDoseFid: String
   currentMedications: [Self_Patient_currentMedications_currentMedicationsItem_PartialInput_]
+  currentTotalDoses: Int
   currentlyEmployed: String
   currentlyInsured: String
   dob: String
+  eligibility: Boolean
   familyHistory: String
   height: String
   icdHealthCodes: [Self_Patient_icdHealthCodes_icdHealthCodesItem_PartialInput_]
@@ -455,6 +496,7 @@ input Self_Patient_PartialInput_ {
   name: String
   oxygenSaturation: String
   patientPicture: String
+  placeboReciever: Boolean
   temperature: String
   uuid: String
   visits: [Self_Patient_visits_visitsItem_PartialInput_]
@@ -476,7 +518,7 @@ input Self_Patient_allergies_allergiesItem_FilterInput_ {
 }
 
 type Self_Patient_allergies_allergiesItem {
-  allergy: String
+  allergy: String!
 }
 
 type Self_Patient_allergies_allergiesItem_Partial_ {
@@ -512,7 +554,7 @@ input Self_Patient_currentMedications_currentMedicationsItem_FilterInput_ {
 }
 
 type Self_Patient_currentMedications_currentMedicationsItem {
-  medication: String
+  medication: String!
 }
 
 type Self_Patient_currentMedications_currentMedicationsItem_Partial_ {
@@ -548,7 +590,7 @@ input Self_Patient_icdHealthCodes_icdHealthCodesItem_FilterInput_ {
 }
 
 type Self_Patient_icdHealthCodes_icdHealthCodesItem {
-  code: String
+  code: String!
 }
 
 type Self_Patient_icdHealthCodes_icdHealthCodesItem_Partial_ {
@@ -573,7 +615,7 @@ input Self_Patient_visits_visitsItem_ConditionInput_ {
   dateTime: Vendia_ModelStringInput_
   hivViralLoad: Vendia_ModelStringInput_
   notes: Vendia_ModelStringInput_
-  patient: Vendia_ModelStringInput_
+  prevDoseFid: Vendia_ModelStringInput_
   _and: [Self_Patient_visits_visitsItem_ConditionInput_]
   _or: [Self_Patient_visits_visitsItem_ConditionInput_]
   _not: Self_Patient_visits_visitsItem_ConditionInput_
@@ -583,24 +625,24 @@ input Self_Patient_visits_visitsItem_FilterInput_ {
   dateTime: Vendia_ModelStringInput_
   hivViralLoad: Vendia_ModelStringInput_
   notes: Vendia_ModelStringInput_
-  patient: Vendia_ModelStringInput_
+  prevDoseFid: Vendia_ModelStringInput_
   _and: [Self_Patient_visits_visitsItem_FilterInput_]
   _or: [Self_Patient_visits_visitsItem_FilterInput_]
   _not: Self_Patient_visits_visitsItem_FilterInput_
 }
 
 type Self_Patient_visits_visitsItem {
-  dateTime: String
-  hivViralLoad: String
+  dateTime: String!
+  hivViralLoad: String!
   notes: String
-  patient: String
+  prevDoseFid: String!
 }
 
 type Self_Patient_visits_visitsItem_Partial_ {
   dateTime: String
   hivViralLoad: String
   notes: String
-  patient: String
+  prevDoseFid: String
 }
 
 type Self_Patient_visits_visitsItem_Result_ {
@@ -3072,7 +3114,7 @@ type Schema {
 }
 
 input Self_Patient_allergies_allergiesItem_Input_ {
-  allergy: String
+  allergy: String!
 }
 
 input Self_Patient_allergies_allergiesItem_UpdateInput_ {
@@ -3084,7 +3126,7 @@ input Self_Patient_allergies_allergiesItem_PartialInput_ {
 }
 
 input Self_Patient_currentMedications_currentMedicationsItem_Input_ {
-  medication: String
+  medication: String!
 }
 
 input Self_Patient_currentMedications_currentMedicationsItem_UpdateInput_ {
@@ -3096,7 +3138,7 @@ input Self_Patient_currentMedications_currentMedicationsItem_PartialInput_ {
 }
 
 input Self_Patient_icdHealthCodes_icdHealthCodesItem_Input_ {
-  code: String
+  code: String!
 }
 
 input Self_Patient_icdHealthCodes_icdHealthCodesItem_UpdateInput_ {
@@ -3108,24 +3150,24 @@ input Self_Patient_icdHealthCodes_icdHealthCodesItem_PartialInput_ {
 }
 
 input Self_Patient_visits_visitsItem_Input_ {
-  dateTime: String
-  hivViralLoad: String
+  dateTime: String!
+  hivViralLoad: String!
   notes: String
-  patient: String
+  prevDoseFid: String!
 }
 
 input Self_Patient_visits_visitsItem_UpdateInput_ {
   dateTime: String
   hivViralLoad: String
   notes: String
-  patient: String
+  prevDoseFid: String
 }
 
 input Self_Patient_visits_visitsItem_PartialInput_ {
   dateTime: String
   hivViralLoad: String
   notes: String
-  patient: String
+  prevDoseFid: String
 }
 
 input Vendia_Block_transactions_transactionsItem_Input_ {
