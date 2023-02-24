@@ -57,10 +57,7 @@
                 "medication": {
                   "type": "string"
                 }
-              },
-              "required": [
-                "medication"
-              ]
+              }
             }
           },
           "familyHistory": {
@@ -80,10 +77,7 @@
                 "code": {
                   "type": "string"
                 }
-              },
-              "required": [
-                "code"
-              ]
+              }
             }
           },
           "allergies": {
@@ -94,10 +88,7 @@
                 "allergy": {
                   "type": "string"
                 }
-              },
-              "required": [
-                "allergy"
-              ]
+              }
             }
           },
           "eligibility": {
@@ -130,19 +121,10 @@
                 "hivViralLoad": {
                   "type": "string"
                 }
-              },
-              "required": [
-                "prevDoseFid",
-                "dateTime",
-                "hivViralLoad"
-              ]
+              }
             }
           }
-        },
-        "required": [
-          "uuid",
-          "icdHealthCodes"
-        ]
+        }
       }
     },
     "Drug": {
@@ -154,7 +136,7 @@
             "type": "boolean"
           },
           "batchNumber": {
-            "type": "integer"
+            "type": "string"
           },
           "bid": {
             "type": "string"
@@ -164,13 +146,11 @@
           },
           "patientUuid": {
             "type": "string"
+          },
+          "used": {
+            "type": "boolean"
           }
-        },
-        "required": [
-          "placebo",
-          "batchNumber",
-          "bid"
-        ]
+        }
       }
     }
   }

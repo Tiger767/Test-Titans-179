@@ -197,11 +197,12 @@ enum Vendia_SyncMode {
 }
 
 input Self_Drug_ConditionInput_ {
-  batchNumber: Vendia_ModelIntInput_
+  batchNumber: Vendia_ModelStringInput_
   bid: Vendia_ModelStringInput_
   fid: Vendia_ModelStringInput_
   patientUuid: Vendia_ModelStringInput_
   placebo: Vendia_ModelBooleanInput_
+  used: Vendia_ModelBooleanInput_
   _and: [Self_Drug_ConditionInput_]
   _or: [Self_Drug_ConditionInput_]
   _not: Self_Drug_ConditionInput_
@@ -209,11 +210,12 @@ input Self_Drug_ConditionInput_ {
 
 input Self_Drug_FilterInput_ {
   _owner: Vendia_ModelStringInput_
-  batchNumber: Vendia_ModelIntInput_
+  batchNumber: Vendia_ModelStringInput_
   bid: Vendia_ModelStringInput_
   fid: Vendia_ModelStringInput_
   patientUuid: Vendia_ModelStringInput_
   placebo: Vendia_ModelBooleanInput_
+  used: Vendia_ModelBooleanInput_
   _and: [Self_Drug_FilterInput_]
   _or: [Self_Drug_FilterInput_]
   _not: Self_Drug_FilterInput_
@@ -225,22 +227,24 @@ input Self_Drug_OrderInput_ {
 
 type Self_Drug {
   _id: ID!
-  batchNumber: Int!
-  bid: String!
+  batchNumber: String
+  bid: String
   fid: String
   patientUuid: String
-  placebo: Boolean!
+  placebo: Boolean
+  used: Boolean
   _acl: [Vendia_Acl!]
   _owner: String
 }
 
 type Self_Drug_Partial_ {
   _id: ID!
-  batchNumber: Int
+  batchNumber: String
   bid: String
   fid: String
   patientUuid: String
   placebo: Boolean
+  used: Boolean
   _acl: [Vendia_Acl!]
   _owner: String
 }
@@ -267,27 +271,30 @@ type Self_Drug_Connection_ {
 }
 
 input Self_Drug_Input_ {
-  batchNumber: Int!
-  bid: String!
+  batchNumber: String
+  bid: String
   fid: String
   patientUuid: String
-  placebo: Boolean!
+  placebo: Boolean
+  used: Boolean
 }
 
 input Self_Drug_UpdateInput_ {
-  batchNumber: Int
+  batchNumber: String
   bid: String
   fid: String
   patientUuid: String
   placebo: Boolean
+  used: Boolean
 }
 
 input Self_Drug_PartialInput_ {
-  batchNumber: Int
+  batchNumber: String
   bid: String
   fid: String
   patientUuid: String
   placebo: Boolean
+  used: Boolean
 }
 
 input Self_Patient_ConditionInput_ {
@@ -365,14 +372,14 @@ type Self_Patient {
   eligibility: Boolean
   familyHistory: String
   height: String
-  icdHealthCodes: [Self_Patient_icdHealthCodes_icdHealthCodesItem]!
+  icdHealthCodes: [Self_Patient_icdHealthCodes_icdHealthCodesItem]
   insuranceNumber: String
   name: String
   oxygenSaturation: String
   patientPicture: String
   placeboReciever: Boolean
   temperature: String
-  uuid: String!
+  uuid: String
   visits: [Self_Patient_visits_visitsItem]
   weight: String
   _acl: [Vendia_Acl!]
@@ -441,14 +448,14 @@ input Self_Patient_Input_ {
   eligibility: Boolean
   familyHistory: String
   height: String
-  icdHealthCodes: [Self_Patient_icdHealthCodes_icdHealthCodesItem_Input_]!
+  icdHealthCodes: [Self_Patient_icdHealthCodes_icdHealthCodesItem_Input_]
   insuranceNumber: String
   name: String
   oxygenSaturation: String
   patientPicture: String
   placeboReciever: Boolean
   temperature: String
-  uuid: String!
+  uuid: String
   visits: [Self_Patient_visits_visitsItem_Input_]
   weight: String
 }
@@ -518,7 +525,7 @@ input Self_Patient_allergies_allergiesItem_FilterInput_ {
 }
 
 type Self_Patient_allergies_allergiesItem {
-  allergy: String!
+  allergy: String
 }
 
 type Self_Patient_allergies_allergiesItem_Partial_ {
@@ -554,7 +561,7 @@ input Self_Patient_currentMedications_currentMedicationsItem_FilterInput_ {
 }
 
 type Self_Patient_currentMedications_currentMedicationsItem {
-  medication: String!
+  medication: String
 }
 
 type Self_Patient_currentMedications_currentMedicationsItem_Partial_ {
@@ -590,7 +597,7 @@ input Self_Patient_icdHealthCodes_icdHealthCodesItem_FilterInput_ {
 }
 
 type Self_Patient_icdHealthCodes_icdHealthCodesItem {
-  code: String!
+  code: String
 }
 
 type Self_Patient_icdHealthCodes_icdHealthCodesItem_Partial_ {
@@ -632,10 +639,10 @@ input Self_Patient_visits_visitsItem_FilterInput_ {
 }
 
 type Self_Patient_visits_visitsItem {
-  dateTime: String!
-  hivViralLoad: String!
+  dateTime: String
+  hivViralLoad: String
   notes: String
-  prevDoseFid: String!
+  prevDoseFid: String
 }
 
 type Self_Patient_visits_visitsItem_Partial_ {
@@ -3114,7 +3121,7 @@ type Schema {
 }
 
 input Self_Patient_allergies_allergiesItem_Input_ {
-  allergy: String!
+  allergy: String
 }
 
 input Self_Patient_allergies_allergiesItem_UpdateInput_ {
@@ -3126,7 +3133,7 @@ input Self_Patient_allergies_allergiesItem_PartialInput_ {
 }
 
 input Self_Patient_currentMedications_currentMedicationsItem_Input_ {
-  medication: String!
+  medication: String
 }
 
 input Self_Patient_currentMedications_currentMedicationsItem_UpdateInput_ {
@@ -3138,7 +3145,7 @@ input Self_Patient_currentMedications_currentMedicationsItem_PartialInput_ {
 }
 
 input Self_Patient_icdHealthCodes_icdHealthCodesItem_Input_ {
-  code: String!
+  code: String
 }
 
 input Self_Patient_icdHealthCodes_icdHealthCodesItem_UpdateInput_ {
@@ -3150,10 +3157,10 @@ input Self_Patient_icdHealthCodes_icdHealthCodesItem_PartialInput_ {
 }
 
 input Self_Patient_visits_visitsItem_Input_ {
-  dateTime: String!
-  hivViralLoad: String!
+  dateTime: String
+  hivViralLoad: String
   notes: String
-  prevDoseFid: String!
+  prevDoseFid: String
 }
 
 input Self_Patient_visits_visitsItem_UpdateInput_ {
