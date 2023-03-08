@@ -11,7 +11,7 @@ import Banner from '../partials/Banner';
 import Footer from '../partials/Footer';
 
 
-import { addPatient, getAllDrugs as getAllDrugsJ } from '../backend/janeHopkins';
+import { addPatient, getAllDrugs as getAllDrugsJ, getAllPatients as getAllPatientsJ,getEligiblePatientsJ, UpdatePatients, addPatientVisit, doctorEditPatient, addPatientDrug} from '../backend/janeHopkins';
 import { getParticipants, addBatchDrug, getAllDrugs as getAllDrugsB } from '../backend/bavaria';
 import { getEligiblePatients, setPatientReceive, assignDoses, labelDoses, getAllDrugs as getAllDrugsF, shareDoseAssignments } from '../backend/fda';
 
@@ -84,7 +84,22 @@ function Home() {
                   <button onClick={() => {shareDoseAssignments();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Share Assignments</button>
                 </li>
                 <li>
-                  <button onClick={() => { /* fill this */ }} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Button</button>
+                  <button onClick={() => {getAllPatientsJ();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Get all Patients J</button>
+                  </li>
+                <li>
+                  <button onClick={() => {UpdatePatients({isAdmin:true});}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Update Patients</button>
+                  </li>
+                <li>
+                  <button onClick={() => {doctorEditPatient({ndx: 1,isDoctor: false, name: "John Doe",  dob: "1985-01-01", insuranceNumber: "12345", height: "5'10", weight: "160 lbs", bloodPressure: "120/80", temperature: "98.6 F", oxygenSaturation: "98%", currentMedications: [{medication:"medication2"}],  icdHealthCodes: [{ code: "O05" },{code: "003"}], allergies: [{allergy:"allergy1"},{allergy: "allergy2"}]});}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Doctor Edit Patient</button>
+                  </li>
+                <li>
+                  <button onClick={() => {getEligiblePatientsJ();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Patient Eligible Patients</button>
+                  </li>
+                <li>
+                  <button onClick={() => {addPatientVisit({doctor: true,ndx:1, dateTime: "2023-04-06T14:30:00.000Z", notes: "Great Patient"});}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Add patient visit</button>
+                  </li>
+                <li>
+                  <button onClick={() => {addPatientDrug(1);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Patient Drug</button>
                 </li>
               </ul>
             </div>
