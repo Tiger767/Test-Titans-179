@@ -15,6 +15,7 @@ import TestVendia from './pages/TestVendia';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import ResetPassword from './pages/ResetPassword';
+import JaneHopkinsAdmin from './pages/JaneHopkinsAdmin';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/janeHopkinsAdmin" element={<JaneHopkinsAdmin />} />
       </Routes>
       
     </>
