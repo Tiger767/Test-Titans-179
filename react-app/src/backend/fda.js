@@ -34,7 +34,6 @@ const getAllDrugs = async() => {
     return allDrugs.items;
 }
 
-
 const labelDoses = async() => {
     const unlabeledDoses = await entities.drug.list({
         filter: {
