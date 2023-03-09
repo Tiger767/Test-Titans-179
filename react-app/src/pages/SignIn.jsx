@@ -36,7 +36,7 @@ function SignIn() {
                   <form className="text-black">
                     <label className="" for="dashboard-names"></label>
                     <select
-                      className="p-20 py-3 w-max"
+                      className="p-20 py-3 w-max bg-gray-300"
                       name="dashboard-options"
                       id="dashboard-names"
                     >
