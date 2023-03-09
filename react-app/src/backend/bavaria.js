@@ -28,7 +28,7 @@ const getAllDrugs = async() => {
 const addBatchDrug = async(batchSize, placebo) => {
     const batchNumber = uuidv4();
     const acl = createACLs([
-        [["FDA"], ["READ"], ["bid", "placebo"]],
+        [["FDA"], ["READ", "UPDATE_ACL"], ["bid", "placebo"]],
         [["FDA"], ["ALL", "UPDATE_ACL"], ["fid", "patientUuid"]],
     ])
     for (let i = 0; i < batchSize; i++) {
@@ -44,6 +44,13 @@ const addBatchDrug = async(batchSize, placebo) => {
     }
 }
 
+const removeAllDrugs = async() => {
+    const drugs = await entities.drug.list();
+    drugs.items.forEach(async(drug) => {
+        const removeAllDrugsResponse = await entities.drug.remove(drug._id);
+        console.log("removeAllDrugsResponse", removeAllDrugsResponse);
+    });
+}
 
 
-export { getParticipants, addBatchDrug, getAllDrugs };
+export { getParticipants, addBatchDrug, getAllDrugs, removeAllDrugs };

@@ -96,12 +96,10 @@ const addPatientDrug = async (ndx) => {
   // get all patients
   const patient = await getPatient({ ndx });
 
-  /*if (!patient || !patient._id) {
+  if (!patient || !patient._id) {
     console.error("Invalid patient");
     return;
-  }*/
-
-  console.log("addPatientDrug", patient);
+  }
 
   // get all drugs assigned to patient
   // filter by patientUuid === patient.uuid and used is null (doesnt exist)
@@ -123,9 +121,10 @@ const addPatientDrug = async (ndx) => {
     return;
   }
 
-  entities.drug.update(
+  const updateDrugResponse = entities.drug.update(
     { _id: dose._id, used: true }
-  )
+  );
+  console.log("addPatientDrug", updateDrugResponse);
 
   const currentTotalDoses = patient.currentTotalDoses + 1;
   const currentDoseFid = dose.fid;
@@ -159,7 +158,7 @@ const addPatientVisit = async ({ndx, dateTime, notes}) => {
   visits.push({
     dateTime: dateTime,
     notes: notes,
-    prevDose: patient.currentDoseFid
+    prevDoseFid: patient.currentDoseFid
   });
   const addPatientVisitResponse = await entities.patient.update(
     { _id: patient._id, visits: visits }
@@ -172,27 +171,25 @@ const addPatientVisit = async ({ndx, dateTime, notes}) => {
 // Admin
 // Need to be able to update all ELIGIBLE patients (ACLs) so FDA and Bavaria at end of trial can get (READ) extra patient info
 // Notify FDA and Bavaria when study is over?
-const updatePatients = async (isAdmin = false) => {
-  const allPatients = await entities.patient.list();
-  console.log("allPatients", allPatients);
-  const eligiblePatients = allPatients.items.filter((patient) => patient.eligibility === true);
-  console.log("eligiblePatients", eligiblePatients);  
-  if (!isAdmin) {
-    const updatePatientResponse = await entities.patient.update(
-      { patientUuid: eligiblePatients.uuid },
-      {
-        aclInput: {
-          acl: createACLs([
-            //Placebo Boolean (read), Bavaria ID (read)  (not needed but try to do) Assigned Patient uuid (read), FDA ID (read)
-            [["placebo","Bavaria"],["READ"]],
-            [["patientUuid","FDA"], ["READ"]]
+const sharePatients = async (isAdmin = false) => {
+  const eligiblePatients = await getEligiblePatients();
+  if (isAdmin) {
 
-          ])
+    const acl = createACLs([
+      [["Bavaria", "FDA"], ["READ"], ["dob", "height", "weight", "bloodPressure", "temperature", "oxygenSaturation", "uuid", "currentMedications", "familyHistory", "currentlyEmployed", "currentlyInsured", "icdHealthCodes", "allergies", "currentTotalDoses", "currentDoseFid", "visits"]],
+      
+      [["FDA"], ["ALL", "UPDATE_ACL"], ["placeboReciever"]]
+    ]);
+
+    eligiblePatients.forEach(async(patient) => {
+      const sharePatientsResponse = await entities.patient.update(
+        { _id: patient._id },
+        {
+          aclInput: { acl }
         }
-      }
-    );
-
-    console.log("updatePatientResponse", updatePatientResponse);
+      );
+      console.log("sharePatientsResponse", sharePatientsResponse);
+    });
   }
 }
    
@@ -225,7 +222,6 @@ const getPatient = async({uuid=null, id=null, ndx=null, eligibility_ndx=null}) =
       }
     });
     console.log("getPatient", patients);
-    // return promise all array
     return (patients).items[eligibility_ndx]
   }
 }
@@ -264,4 +260,14 @@ const getAllDrugs = async() => {
 }
 
 
-export { addPatient, getAllDrugs, getAllPatients, getEligiblePatients, updatePatients, addPatientVisit, editPatient, addPatientDrug, getPatient};
+const removeAllPatients = async() => {
+  const patients = await entities.patient.list();
+
+  patients.items.forEach(async(patient) => {
+    const removeAllPatientsResponse = await entities.patient.remove(patient._id);
+    console.log("removeAllPatientsResponse", removeAllPatientsResponse);
+  });
+}
+
+
+export { addPatient, getAllDrugs, getAllPatients, getEligiblePatients, sharePatients, addPatientVisit, editPatient, addPatientDrug, getPatient, removeAllPatients };
