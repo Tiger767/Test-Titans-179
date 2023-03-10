@@ -23,7 +23,7 @@ function FeaturesBlocks() {
                 <path className="stroke-current text-purple-300" d="M43 42h-9M43 37h-9" strokeLinecap="square" strokeWidth="2" />
               </svg>
               <h4 className="h4 mb-2">Trusted</h4>
-              <p className="text-lg text-gray-400 text-center">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.</p>
+              <p className="text-lg text-gray-400 text-center">We build trust with customers and each other by working as a team, operating with transparency, and using good judgment.</p>
             </div>
 
             {/* 2nd item */}
@@ -33,8 +33,8 @@ function FeaturesBlocks() {
                 <path className="stroke-current text-purple-100" strokeWidth="2" strokeLinecap="square" d="M21 23h22v18H21z" fill="none" fillRule="evenodd" />
                 <path className="stroke-current text-purple-300" d="M26 28h12M26 32h12M26 36h5" strokeWidth="2" strokeLinecap="square" />
               </svg>
-              <h4 className="h4 mb-2">Easy to Use</h4>
-              <p className="text-lg text-gray-400 text-center">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.</p>
+              <h4 className="h4 mb-2">Ingenuity</h4>
+              <p className="text-lg text-gray-400 text-center">We embrace tough questions with curiosity, and we’re always learning. We’re creative, inventive, and trailblazing.</p>
             </div>
 
             {/* 3rd item */}
@@ -60,8 +60,8 @@ function FeaturesBlocks() {
                   <circle className="stroke-current text-purple-300" cx="13" cy="9" r="3" />
                 </g>
               </svg>
-              <h4 className="h4 mb-2">Instant Features</h4>
-              <p className="text-lg text-gray-400 text-center">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.</p>
+              <h4 className="h4 mb-2">Growth</h4>
+              <p className="text-lg text-gray-400 text-center">We are builders with a growth mindset. We don’t settle. Instead, we strive and continuously improve in all that we do.</p>
             </div>
 
             {/* 5th item */}
@@ -73,8 +73,8 @@ function FeaturesBlocks() {
                   <path className="stroke-current text-purple-300" d="M22 30h4v12h-4z" />
                 </g>
               </svg>
-              <h4 className="h4 mb-2">Instant Features</h4>
-              <p className="text-lg text-gray-400 text-center">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.</p>
+              <h4 className="h4 mb-2">Responsibility</h4>
+              <p className="text-lg text-gray-400 text-center">We own our successes and failures. We respectfully question each other, ask for feedback, and speak up if concerns arise.</p>
             </div>
 
             {/* 6th item */}
@@ -87,8 +87,8 @@ function FeaturesBlocks() {
                   <path className="stroke-current text-purple-100" d="M8.86 1.18C3.8 1.988 0 5.6 0 10c0 5 4.9 9 11 9a10.55 10.55 0 003.1-.4L20 21l-.6-5.2a9.125 9.125 0 001.991-2.948" />
                 </g>
               </svg>
-              <h4 className="h4 mb-2">Instant Features</h4>
-              <p className="text-lg text-gray-400 text-center">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.</p>
+              <h4 className="h4 mb-2">Results</h4>
+              <p className="text-lg text-gray-400 text-center">We GSD. Outcomes-focused, we balance speed with control. We think big, take calculated risks, and deliver reliably.</p>
             </div>
 
           </div>
