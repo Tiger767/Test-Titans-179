@@ -49,6 +49,9 @@ function Home() {
                   <button onClick={() => {getAllPatientsJ(true);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Get all Patients (admin)</button>
                 </li>
                 <li>
+                  <button onClick={() => {getEligiblePatientsJ();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Get Patient Eligible Patients</button>
+                </li>
+                <li>
                   <button onClick={() => {getEligiblePatients();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">FDA: Get Eligible Patients</button>
                 </li>
                 <li>
@@ -85,16 +88,10 @@ function Home() {
                   <button onClick={() => {getAllDrugsJ();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Get all Drugs</button>
                 </li>
                 <li>
-                  <button onClick={() => {sharePatients({isAdmin:true});}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Share Patients (admin)</button>
-                </li>
-                <li>
                   <button onClick={() => {editPatient({ndx: 1, name: "John Doe",  dob: "1985-01-01", insuranceNumber: "12345", height: "5'10", weight: "160 lbs", bloodPressure: "120/80", temperature: "98.6 F", oxygenSaturation: "98%", currentMedications: [{medication:"medication2"}],  icdHealthCodes: [{ code: "O05" },{code: "003"}], allergies: [{allergy:"allergy1"},{allergy: "allergy2"}]});}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Doctor Edit Patient</button>
                 </li>
                 <li>
-                  <button onClick={() => {getEligiblePatientsJ();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Get Patient Eligible Patients</button>
-                </li>
-                <li>
-                  <button onClick={() => {addPatientDrug(1);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Give Patient Drug</button>
+                  <button onClick={() => {addPatientDrug(1);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Give Second Eligible Patient Drug</button>
                 </li>
                 <li>
                   <button onClick={() => {addPatientVisit({ndx: 0, dateTime: "2023-04-06T14:40:00.000Z", notes: "good" });}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Add to First Patient a Visit</button>

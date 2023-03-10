@@ -178,7 +178,7 @@ const sharePatients = async (isAdmin = false) => {
     const acl = createACLs([
       [["Bavaria", "FDA"], ["READ"], ["dob", "height", "weight", "bloodPressure", "temperature", "oxygenSaturation", "uuid", "currentMedications", "familyHistory", "currentlyEmployed", "currentlyInsured", "icdHealthCodes", "allergies", "currentTotalDoses", "currentDoseFid", "visits"]],
       
-      [["FDA"], ["ALL", "UPDATE_ACL"], ["placeboReciever"]]
+      //[["FDA"], ["ALL", "UPDATE_ACL"], ["placeboReciever"]]
     ]);
 
     eligiblePatients.forEach(async(patient) => {

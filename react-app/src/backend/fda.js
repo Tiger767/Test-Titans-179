@@ -111,7 +111,7 @@ const shareDoseAssignments = async() => {
     );*/
 
     let acl = createACLs([
-        [["Bavaria", "JaneHopkins", "FDA"], ["READ"], ["placeboReciever"]]
+        [["*"], ["READ"], ["placeboReciever"]]
     ]);
 
     const patients = await getEligiblePatients();

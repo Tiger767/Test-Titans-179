@@ -51,6 +51,15 @@ function Header() {
             {/* Desktop sign in links */}
             <ul className="flex grow justify-end flex-wrap items-center">
               <li>
+                <Link to="/testVendia" className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out">Test Vendia</Link>
+              </li>
+              <li>
+                <Link to="/janeHopkinsDoctor" className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out">Jane Hopkins Doctor</Link>
+              </li>
+              <li>
+                <Link to="/janeHopkinsAdmin" className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out">Jane Hopkins Admin</Link>
+              </li>
+              <li>
                 <Link to="/signin" className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out">Sign in</Link>
               </li>
               <li>

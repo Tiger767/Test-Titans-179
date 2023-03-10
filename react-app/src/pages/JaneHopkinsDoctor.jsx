@@ -1,8 +1,9 @@
 import React from "react";
-import './index.css';
+import '../css/JaneHopkinsDoctor.css';
 import 'https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js';
 import 'https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js';
-function App() {
+
+function JaneHopkinsAdmin() {
   return (
     <div class="container">
         <div class="navigation">
@@ -184,4 +185,4 @@ function App() {
         item.addEventListener('mouseover',activeLink));
 }
 
-export default App;
+export default JaneHopkinsAdmin;
