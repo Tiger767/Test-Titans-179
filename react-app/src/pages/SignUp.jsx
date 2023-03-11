@@ -51,10 +51,10 @@ function SignUp() {
                 </p>
 
                 <div className=" flex btn relative">
-                  <form className="text-black pb-3">
+                  <form className="text-black pb-3 ">
                     <label for="dashboard-names"></label>
                     <select
-                      className="p-20 py-3 w-max"
+                      className="p-20 py-3 w-max bg-gray-300"
                       name="dashboard-options"
                       id="dashboard-names"
                     >

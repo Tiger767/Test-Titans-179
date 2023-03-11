@@ -19,8 +19,7 @@ const getEligiblePatients = async() => {
 
 
 const setPatientReceive = async(placebo, ndx) => {
-    const patients = await getEligiblePatients();
-    const patient = patients[ndx];
+    const patient = await getPatient({ ndx });
     const setPatientReceiveResponse = await entities.patient.update({
         _id: patient._id,
         placeboReciever: placebo
@@ -34,7 +33,6 @@ const getAllDrugs = async() => {
     return allDrugs.items;
 }
 
-
 const labelDoses = async() => {
     const unlabeledDoses = await entities.drug.list({
         filter: {
@@ -47,7 +45,7 @@ const labelDoses = async() => {
     console.log("getUnlabeledDoses", unlabeledDoses);
     const acl = createACLs([[["JaneHopkins"], ["READ"], ["fid", "patientUuid"]],
                             [["JaneHopkins"], ["ALL"], "used"],
-                            [["FDA"], ["READ"], ["bid", "placebo"]],
+                            [["FDA"], ["READ", "UPDATE_ACL"], ["bid", "placebo"]],
                             [["FDA"], ["ALL", "UPDATE_ACL"], ["fid", "patientUuid"]]]);
     unlabeledDoses.items.forEach(async(dose) => {
         const fid = uuidv4();
@@ -111,10 +109,35 @@ const shareDoseAssignments = async() => {
             }
         }
     );*/
+
+    let acl = createACLs([
+        [["*"], ["READ"], ["placeboReciever"]]
+    ]);
+
+    const patients = await getEligiblePatients();
+    patients.forEach(async(patient) => {
+        const shareDoseAssignmentsResponse = await entities.patient.update(
+            { _id: patient._id },
+            {
+                aclInput: { acl }
+            }
+        );
+        console.log("shareDoseAssignments", shareDoseAssignmentsResponse);
+    });
+
+
     //console.log("shareDoseAssignments", shareDoseAssignmentsResponse);
-    const acl = createACLs([[["Bavaria"], ["READ"], ["patientUuid", "fid"]],
-                            [["FDA"], ["READ"], ["bid", "placebo"]],
-                            [["FDA"], ["ALL", "UPDATE_ACL"], ["fid", "patientUuid"]]]); // EDIT
+    //acl = createACLs([[["Bavaria"], ["READ"], ["patientUuid", "fid"]],
+    //                 [["FDA"], ["READ"], ["bid", "placebo"]],
+    //                 [["FDA"], ["ALL", "UPDATE_ACL"], ["fid", "patientUuid"]]]); // EDIT
+
+    acl = createACLs([
+        [["Bavaria", "JaneHopkins"], ["READ"], ["bid", "fid", "patientUuid", "placebo"]],
+
+        //[["JaneHopkins"], ["ALL"], "used"],
+        //[["FDA"], ["READ"], ["bid", "placebo"]],
+        //[["FDA"], ["ALL", "UPDATE_ACL"], ["fid", "patientUuid"]]
+    ]);
 
     // get all drugs
     const drugs = await getAllDrugs();
@@ -127,6 +150,29 @@ const shareDoseAssignments = async() => {
         );
         console.log("shareDoseAssignments", shareDoseAssignmentsResponse);
     });
+}
+
+
+const getPatient = async({uuid=null, id=null, ndx=null}) => {
+    if (id !== null) {
+      const patient = await entities.patient.get({ id });
+      console.log("getPatient", patient);
+      return patient;
+    } else if (uuid !== null) {
+      const patients = await entities.patient.list({
+        filter: {
+          uuid: {
+            eq: uuid
+          }
+        }
+      });
+      console.log("getPatient", patients);
+      return (patients).items[0];
+    } else {
+      const patients = await entities.patient.list();
+      console.log("getPatient", patients);
+      return (patients).items[ndx];
+    }
 }
 
 

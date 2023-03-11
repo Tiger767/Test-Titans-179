@@ -7,6 +7,7 @@
     "@vendia/client": "^0.8.5",
     "aos": "^2.3.4",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
     "react-transition-group": "^4.4.5"

@@ -2,17 +2,12 @@ import React from 'react';
 
 import Header from '../partials/Header';
 import PageIllustration from '../partials/PageIllustration';
-import HeroHome from '../partials/HeroHome';
-import FeaturesBlocks from '../partials/FeaturesBlocks';
-import FeaturesZigZag from '../partials/FeaturesZigzag';
-import Testimonials from '../partials/Testimonials';
-import Newsletter from '../partials/Newsletter';
 import Banner from '../partials/Banner';
 import Footer from '../partials/Footer';
 
 
-import { addPatient, getAllDrugs as getAllDrugsJ, getAllPatients as getAllPatientsJ,getEligiblePatientsJ, UpdatePatients, addPatientVisit, doctorEditPatient, addPatientDrug} from '../backend/janeHopkins';
-import { getParticipants, addBatchDrug, getAllDrugs as getAllDrugsB } from '../backend/bavaria';
+import { addPatient, getAllDrugs as getAllDrugsJ, getAllPatients as getAllPatientsJ, getEligiblePatients as getEligiblePatientsJ, sharePatients, addPatientVisit, editPatient, addPatientDrug, removeAllPatients } from '../backend/janeHopkins';
+import { getParticipants, addBatchDrug, getAllDrugs as getAllDrugsB, removeAllDrugs } from '../backend/bavaria';
 import { getEligiblePatients, setPatientReceive, assignDoses, labelDoses, getAllDrugs as getAllDrugsF, shareDoseAssignments } from '../backend/fda';
 
 // Permissions
@@ -42,7 +37,19 @@ function Home() {
                   <button onClick={() => {addPatient({ name: "Tom" });}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Add Patient Tom (eligible)</button>
                 </li>
                 <li>
+                  <button onClick={() => {addPatient({ name: "Rye" });}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Add Patient Rye (eligible)</button>
+                </li>
+                <li>
                   <button onClick={() => {addPatient({ name: "Jill", icdHealthCodes: [{ code: "O05" }]});}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Add Patient Jill (not eligible)</button>
+                </li>
+                <li>
+                  <button onClick={() => {getAllPatientsJ();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Get all Patients</button>
+                </li>
+                <li>
+                  <button onClick={() => {getAllPatientsJ(true);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Get all Patients (admin)</button>
+                </li>
+                <li>
+                  <button onClick={() => {getEligiblePatientsJ();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Get Patient Eligible Patients</button>
                 </li>
                 <li>
                   <button onClick={() => {getEligiblePatients();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">FDA: Get Eligible Patients</button>
@@ -51,55 +58,55 @@ function Home() {
                   <button onClick={() => {getParticipants();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Bavaria: Get Participants</button>
                 </li>
                 <li>
-                  <button onClick={() => {setPatientReceive(true, 0);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Assgin First Eligible Patient to Placebo</button>
+                  <button onClick={() => {setPatientReceive(true, 0);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">FDA: Assgin First Eligible Patient to Placebo</button>
                 </li>
                 <li>
-                  <button onClick={() => {setPatientReceive(false, 1);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Assgin Second Eligible Patient to Bavaria</button>
+                  <button onClick={() => {setPatientReceive(false, 1);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">FDA: Assgin Second Eligible Patient to Bavaria</button>
                 </li>
                 <li>
-                  <button onClick={() => {addBatchDrug(1, true);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Add a Batch of Placebo</button>
+                  <button onClick={() => {addBatchDrug(1, true);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Bavaria: Add a Batch of Placebo</button>
                 </li>
                 <li>
-                  <button onClick={() => {addBatchDrug(1, false);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Add a Batch of Bavaria</button>
+                  <button onClick={() => {addBatchDrug(1, false);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Bavaria: Add a Batch of Bavaria</button>
                 </li>
                 <li>
-                  <button onClick={() => {labelDoses();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Label Unlabeled Drugs with FDA ID</button>
+                  <button onClick={() => {labelDoses();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">FDA: Label Unlabeled Drugs with FDA ID</button>
                 </li>
                 <li>
-                  <button onClick={() => {assignDoses(true);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Assign Unassiged Placebos Equally to all Placebo Assigned Patients</button>
+                  <button onClick={() => {assignDoses(true);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">FDA: Assign Unassiged Placebos Equally to all Placebo Assigned Patients</button>
                 </li>
                 <li>
-                  <button onClick={() => {assignDoses(false);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Assign Unassiged Bavaria Equally to all Bavaria Assigned Patients</button>
+                  <button onClick={() => {assignDoses(false);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">FDA: Assign Unassiged Bavaria Equally to all Bavaria Assigned Patients</button>
                 </li>
                 <li>
-                  <button onClick={() => {getAllDrugsB();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Get all Drugs B</button>
+                  <button onClick={() => {getAllDrugsB();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Bavaria: Get all Drugs</button>
                 </li>
                 <li>
-                  <button onClick={() => {getAllDrugsF();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Get all Drugs F</button>
+                  <button onClick={() => {getAllDrugsF();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">FDA: Get all Drugs</button>
                 </li>
                 <li>
-                  <button onClick={() => {getAllDrugsJ();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Get all Drugs J</button>
+                  <button onClick={() => {getAllDrugsJ();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Get all Drugs</button>
                 </li>
                 <li>
-                  <button onClick={() => {shareDoseAssignments();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Share Assignments</button>
+                  <button onClick={() => {editPatient({ndx: 1, name: "John Doe",  dob: "1985-01-01", insuranceNumber: "12345", height: "5'10", weight: "160 lbs", bloodPressure: "120/80", temperature: "98.6 F", oxygenSaturation: "98%", currentMedications: [{medication:"medication2"}],  icdHealthCodes: [{ code: "O05" },{code: "003"}], allergies: [{allergy:"allergy1"},{allergy: "allergy2"}]});}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Doctor Edit Patient</button>
                 </li>
                 <li>
-                  <button onClick={() => {getAllPatientsJ();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Get all Patients J</button>
-                  </li>
+                  <button onClick={() => {addPatientDrug(1);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Give Second Eligible Patient Drug</button>
+                </li>
                 <li>
-                  <button onClick={() => {UpdatePatients({isAdmin:true});}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Update Patients</button>
-                  </li>
+                  <button onClick={() => {addPatientVisit({ndx: 0, dateTime: "2023-04-06T14:40:00.000Z", notes: "good" });}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Add to First Patient a Visit</button>
+                </li>
                 <li>
-                  <button onClick={() => {doctorEditPatient({ndx: 1,isDoctor: false, name: "John Doe",  dob: "1985-01-01", insuranceNumber: "12345", height: "5'10", weight: "160 lbs", bloodPressure: "120/80", temperature: "98.6 F", oxygenSaturation: "98%", currentMedications: [{medication:"medication2"}],  icdHealthCodes: [{ code: "O05" },{code: "003"}], allergies: [{allergy:"allergy1"},{allergy: "allergy2"}]});}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Doctor Edit Patient</button>
-                  </li>
+                  <button onClick={() => {sharePatients(true)}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Share Eligible Patient Info (admin) (end of trial)</button>
+                </li>
                 <li>
-                  <button onClick={() => {getEligiblePatientsJ();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Patient Eligible Patients</button>
-                  </li>
+                  <button onClick={() => {shareDoseAssignments();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">FDA: Share Assignments (end of trial)</button>
+                </li>
                 <li>
-                  <button onClick={() => {addPatientVisit({doctor: true,ndx:1, dateTime: "2023-04-06T14:30:00.000Z", notes: "Great Patient"});}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Add patient visit</button>
-                  </li>
+                  <button onClick={() => {removeAllPatients();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Remove All Patients</button>
+                </li>
                 <li>
-                  <button onClick={() => {addPatientDrug(1);}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Patient Drug</button>
+                  <button onClick={() => {removeAllDrugs();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Bavaria: Remove All Drugs</button>
                 </li>
               </ul>
             </div>
