@@ -17,7 +17,7 @@ import SignUp from './pages/SignUp';
 import ResetPassword from './pages/ResetPassword';
 import JaneHopkinsAdmin from './pages/JaneHopkinsAdmin';
 import JaneHopkinsDoctor from './pages/JaneHopkinsDoctor';
-
+import Bavaria from './pages/Bavaria';
 
 function App() {
 
@@ -48,6 +48,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/janeHopkinsAdmin" element={<JaneHopkinsAdmin />} />
         <Route path="/janeHopkinsDoctor" element={<JaneHopkinsDoctor />} />
+        <Route path="/bavaria" element={<Bavaria />} />
       </Routes>
       
     </>
