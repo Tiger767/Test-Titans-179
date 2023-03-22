@@ -6,6 +6,9 @@ import PageIllustration from '../partials/PageIllustration';
 import Banner from '../partials/Banner';
 import Button from "react-bootstrap/Button";
 import SideMenu from '../components/SideMenu';
+import AddBox from "@material-ui/icons/AddBox";
+import ArrowDownward from "@material-ui/icons/ArrowDownward";
+
 //Create a page for admin view the includes the following:
 //1. A side menu with the following options:
 //a. Dashboard
@@ -51,9 +54,9 @@ function Bavaria() {
               <div className="-my-2 overflow-x-auto sm:-mx-8 lg:-mx-15">
                 <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           
-                  <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                  <div className= "bg-white shadow overflow-hidden sm:rounded-lg">
-                    <table className="min-w-full divide-y divide-gray-200">
+                  {/* <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"> */}
+                  {/* <div className= "bg-white shadow overflow-hidden sm:rounded-lg"> */}
+                    {/* <table className="min-w-full divide-y divide-gray-200">
                        
                       <thead className="bg-gray-50">
                         <tr>
@@ -91,13 +94,13 @@ function Bavaria() {
                                 </tr>
 
                           </tbody>
-                        </table>
+                        </table> */}
                       </div>
                     </div>
                   </div>
                 </div>
-                </div>
-              </div>
+                {/* </div> */}
+              {/* </div> */}
             {/*Side Menu*/}   
              <SideMenu />
                    
@@ -108,5 +111,5 @@ function Bavaria() {
       <Footer />
     </div>  
    )
-}  
+}    
 export default Bavaria;
