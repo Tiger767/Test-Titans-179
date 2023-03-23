@@ -5,7 +5,7 @@ import { createACLs, uuidv4 } from "./utils";
 const client = createVendiaClient({
     apiUrl: `https://at8pm75l2c.execute-api.us-west-1.amazonaws.com/graphql/`,
     websocketUrl: `wss://f4mqkxkjof.execute-api.us-west-1.amazonaws.com/graphql`,
-    apiKey: 'FMmgqq1N5NvE2wvAggySE1z1p7ojh7Rhm5G55gVXnUJB',
+    apiKey: '36UaSJfNdjzUEv8y6qpHASAqBcPQGckQukgKdujZiywi',
 })
 
 const {entities} = client;
@@ -20,9 +20,17 @@ const getEligiblePatients = async() => {
 
 const setPatientReceive = async(placebo, ndx) => {
     const patient = await getPatient({ ndx });
+    let acl = createACLs([
+        //[["JaneHopkins"], ["READ"], ["placeboReciever"]], // to remove
+        [["FDA", "Bavaria"], ["READ"], ["uuid", "visits", "currentTotalDoses"]],
+        [["FDA"], ["READ"], ["eligibility", "currentDoseFid"]],
+        [["FDA"], ["ALL", "UPDATE_ACL"], ["placeboReciever"]]
+    ]);
     const setPatientReceiveResponse = await entities.patient.update({
         _id: patient._id,
         placeboReciever: placebo
+    }, {
+        aclInput: { acl }
     });
     console.log("setPatientReceive", setPatientReceiveResponse);
 }
@@ -81,6 +89,12 @@ const assignDoses = async(placebo) => {
     const dosesCount = doses.items.length;
     const patientsCount = patients.items.length;
     const dosesPerPatient = dosesCount / patientsCount;
+
+    const acl = createACLs([[["JaneHopkins"], ["READ"], ["fid", "patientUuid"]],
+                            [["JaneHopkins"], ["ALL"], "used"],
+                            [["FDA"], ["READ", "UPDATE_ACL"], ["bid", "placebo"]],
+                            [["FDA"], ["ALL", "UPDATE_ACL"], ["fid", "patientUuid"]]]);
+    
     console.log("assignDoses", doses);
     patients.items.forEach(async(patient) => {
         for (let i = 0; i < dosesPerPatient; i++) {
@@ -88,7 +102,7 @@ const assignDoses = async(placebo) => {
             const assignDosesResponse = await entities.drug.update({
                 _id: dose._id,
                 patientUuid: patient.uuid
-            });
+            }, { aclInput: { acl } });
             console.log("assignDoses", assignDosesResponse);
         }
     });
@@ -111,13 +125,16 @@ const shareDoseAssignments = async() => {
     );*/
 
     let acl = createACLs([
-        [["*"], ["READ"], ["placeboReciever"]]
+        [["Bavaria", "JaneHopkins"], ["READ"], ["placeboReciever"]],
+        [["FDA", "Bavaria"], ["READ"], ["uuid", "visits", "currentTotalDoses"]],
+        [["FDA"], ["READ"], ["eligibility", "currentDoseFid"]],
+        [["FDA"], ["ALL", "UPDATE_ACL"], ["placeboReciever"]]
     ]);
 
     const patients = await getEligiblePatients();
     patients.forEach(async(patient) => {
         const shareDoseAssignmentsResponse = await entities.patient.update(
-            { _id: patient._id },
+            { _id: patient._id, placeboReciever: patient.placeboReciever },
             {
                 aclInput: { acl }
             }
@@ -127,17 +144,10 @@ const shareDoseAssignments = async() => {
 
 
     //console.log("shareDoseAssignments", shareDoseAssignmentsResponse);
-    //acl = createACLs([[["Bavaria"], ["READ"], ["patientUuid", "fid"]],
-    //                 [["FDA"], ["READ"], ["bid", "placebo"]],
-    //                 [["FDA"], ["ALL", "UPDATE_ACL"], ["fid", "patientUuid"]]]); // EDIT
-
-    acl = createACLs([
-        [["Bavaria", "JaneHopkins"], ["READ"], ["bid", "fid", "patientUuid", "placebo"]],
-
-        //[["JaneHopkins"], ["ALL"], "used"],
-        //[["FDA"], ["READ"], ["bid", "placebo"]],
-        //[["FDA"], ["ALL", "UPDATE_ACL"], ["fid", "patientUuid"]]
-    ]);
+    acl = createACLs([[["JaneHopkins", "Bavaria"], ["READ"], ["bid", "placebo", "fid", "patientUuid"]],
+                      [["JaneHopkins"], ["ALL"], "used"],
+                      [["FDA"], ["READ", "UPDATE_ACL"], ["bid", "placebo"]],
+                      [["FDA"], ["ALL", "UPDATE_ACL"], ["fid", "patientUuid"]]]);
 
     // get all drugs
     const drugs = await getAllDrugs();
@@ -145,7 +155,7 @@ const shareDoseAssignments = async() => {
     // for each drug pass _id and update
     drugs.forEach(async(drug) => {
         const shareDoseAssignmentsResponse = await entities.drug.update(
-            { _id: drug._id },
+            { _id: drug._id, fid: drug.fid, patientUuid: drug.patientUuid },
             { aclInput: { acl } }
         );
         console.log("shareDoseAssignments", shareDoseAssignmentsResponse);

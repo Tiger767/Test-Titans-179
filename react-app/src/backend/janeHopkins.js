@@ -5,7 +5,7 @@ import { createACLs, uuidv4,} from "./utils";
 const client = createVendiaClient({
     apiUrl: `https://05bzvc7wo2.execute-api.us-west-1.amazonaws.com/graphql/`,
     websocketUrl: `wss://4zsow57261.execute-api.us-west-1.amazonaws.com/graphql`,
-    apiKey: '61bvxT3xS1sHhFtW2C74XHLsNB3eQN3xcaTXXBRhhxwb',
+    apiKey: 'y2fErgHeP1tcZ2v8LCm2mpavRgB46LXABrRxrqrHTB8',
 })
 
 const {entities} = client;
@@ -33,7 +33,7 @@ const addPatient = async({name="Unknown", patientPicture="None", dob="1970-01-01
         acl = createACLs([
             [["FDA", "Bavaria"], ["READ"], ["uuid", "visits", "currentTotalDoses"]],
             [["FDA"], ["READ"], ["eligibility", "currentDoseFid"]],
-            [["FDA"], ["ALL"], ["placeboReciever"]]
+            [["FDA"], ["ALL", "UPDATE_ACL"], ["placeboReciever"]]
         ])
     } else {
         acl = createACLs([
@@ -177,8 +177,8 @@ const sharePatients = async (isAdmin = false) => {
 
     const acl = createACLs([
       [["Bavaria", "FDA"], ["READ"], ["dob", "height", "weight", "bloodPressure", "temperature", "oxygenSaturation", "uuid", "currentMedications", "familyHistory", "currentlyEmployed", "currentlyInsured", "icdHealthCodes", "allergies", "currentTotalDoses", "currentDoseFid", "visits"]],
-      
-      //[["FDA"], ["ALL", "UPDATE_ACL"], ["placeboReciever"]]
+      [["FDA"], ["ALL", "UPDATE_ACL"], ["placeboReciever"]],
+      [["Bavaria"], ["READ"], ["placeboReciever"]]
     ]);
 
     eligiblePatients.forEach(async(patient) => {
