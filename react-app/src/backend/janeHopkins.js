@@ -54,7 +54,7 @@ const editPatient = async (updatedPatient) => {
         familyHistory: updatedPatient.familyHistory,
         currentlyEmployed: updatedPatient.currentlyEmployed,
         currentlyInsured: updatedPatient.currentlyInsured,
-        icdHealthCodes: parseArray(updatedPatient.icdHealthCodes),
+        icdHealthCodes: updatedPatient.icdHealthCodes,
         allergies: updatedPatient.allergies,
         eligibility: updatedPatient.eligibility,
         currentTotalDoses: parseInt(updatedPatient.currentTotalDoses),
