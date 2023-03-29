@@ -18,6 +18,9 @@ import ResetPassword from './pages/ResetPassword';
 import JaneHopkinsAdmin from './pages/JaneHopkinsAdmin';
 import JaneHopkinsDoctor from './pages/JaneHopkinsDoctor';
 import Bavaria from './pages/Bavaria';
+import CreatePatient from './pages/CreatePatient';
+
+
 
 function App() {
 
@@ -49,6 +52,8 @@ function App() {
         <Route path="/janeHopkinsAdmin" element={<JaneHopkinsAdmin />} />
         <Route path="/janeHopkinsDoctor" element={<JaneHopkinsDoctor />} />
         <Route path="/bavaria" element={<Bavaria />} />
+        <Route path="/createPatient" element={<CreatePatient />} />
+        
       </Routes>
       
     </>

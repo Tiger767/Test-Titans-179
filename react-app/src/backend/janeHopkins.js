@@ -1,5 +1,5 @@
 import { createVendiaClient } from "@vendia/client"
-
+import { useEffect } from 'react';
 import { createACLs, uuidv4,} from "./utils";
 
 const client = createVendiaClient({
@@ -9,9 +9,70 @@ const client = createVendiaClient({
 })
 
 const {entities} = client;
+const listPatients = async() => {
+    const patients = await entities.patient.list();
+    //console.log("listPatients", patients.items[0].id);
+    return patients.items;
+};
 
 
-// Doctor
+
+//Make this work on the front end
+const editPatient = async (updatedPatient) => {
+
+    console.log("editPatient", updatedPatient);
+   
+  //  const patients = getAllPatients(true);   
+ //const patient = updatedPatient;
+//  if(patient.id === patients.id){
+//       console.log("editPatient", patients);
+
+//  }
+  
+//     if(!patient || !patient._id){
+//       console.error("Invalid patient");
+//       return;
+//     }
+
+
+
+    const editPatientResponse = await entities.patient.update(
+      {
+        _id: updatedPatient._id,
+        name: updatedPatient.name,
+        patientPicture: updatedPatient.patientPicture,
+        dob: updatedPatient.dob,
+        insuranceNumber: updatedPatient.insuranceNumber,
+        height: updatedPatient.height,
+        weight: updatedPatient.weight,
+        bloodPressure: updatedPatient.bloodPressure,
+        temperature: updatedPatient.temperature,
+        oxygenSaturation: updatedPatient.oxygenSaturation,
+        uuid: updatedPatient.uuid,
+        address: updatedPatient.address,
+        currentMedications: updatedPatient.currentMedications,
+        familyHistory: updatedPatient.familyHistory,
+        currentlyEmployed: updatedPatient.currentlyEmployed,
+        currentlyInsured: updatedPatient.currentlyInsured,
+        icdHealthCodes: parseArray(updatedPatient.icdHealthCodes),
+        allergies: updatedPatient.allergies,
+        eligibility: updatedPatient.eligibility,
+        currentTotalDoses: parseInt(updatedPatient.currentTotalDoses),
+        currentDoseFid: updatedPatient.currentDoseFid,
+        visits: updatedPatient.visits
+      },
+      {
+        ConditionExpression: "attribute_exists(uuid)"
+      }
+    );
+    console.log("editPatient", editPatientResponse);
+    }
+
+
+
+
+ 
+    // Doctor
 // Need to be able to add a patient and check elgiibility and assign uuid
 const addPatient = async({name="Unknown", patientPicture="None", dob="1970-01-01", insuranceNumber="None",
                           height="Unknown Inches", weight="Unknown Inches", bloodPressure="Unknown mmHg",
@@ -61,10 +122,11 @@ const addPatient = async({name="Unknown", patientPicture="None", dob="1970-01-01
 // If dob is changed or icdHealthCodes eligibility needs to be recalculated
 // HOWEVER, we don't want eligiblity to change and result in patients being kicked out of the study??
 // ASK ELLIOT! If not, then no chnages to dob or icdHealthCodes are allowed.
-const editPatient = async ({ ndx, name, patientPicture, dob, insuranceNumber, height, weight,
+/*const editPatient = async ({ ndx,name, patientPicture, dob, insuranceNumber, height, weight,
                              bloodPressure, temperature, oxygenSaturation, address, currentMedications,
                              familyHistory, currentlyEmployed, currentlyInsured, icdHealthCodes,
                              allergies, currentTotalDoses, currentDoseFid, visits }) => {
+ try {
   const patient = await getPatient({ ndx });
 
   if (!patient || !patient._id) {
@@ -85,8 +147,12 @@ const editPatient = async ({ ndx, name, patientPicture, dob, insuranceNumber, he
     }
   );
   console.log("editPatient", editPatientResponse);
-}
+  } catch (err) {
+    console.error("editPatient", err);
+  }
 
+}
+*/
 
 // Doctor
 // Need to pair drug and patient, basically like giving the patient a dosage of the drug
@@ -228,7 +294,7 @@ const getPatient = async({uuid=null, id=null, ndx=null, eligibility_ndx=null}) =
 
 // Get all patients
 // The Admin should be the only one able see eligiblity, but not the doctor (we will soft block this?)
-const getAllPatients = async(isAdmin=false) => {    
+const getAllPatients = async(isAdmin = false) => {
   const allPatients = await entities.patient.list();    
   if (!isAdmin) {            
     allPatients.items = allPatients.items.map(patient => {            
@@ -270,4 +336,4 @@ const removeAllPatients = async() => {
 }
 
 
-export { addPatient, getAllDrugs, getAllPatients, getEligiblePatients, sharePatients, addPatientVisit, editPatient, addPatientDrug, getPatient, removeAllPatients };
+export { addPatient, getAllDrugs, getAllPatients, getEligiblePatients, sharePatients, addPatientVisit, editPatient, addPatientDrug, getPatient, removeAllPatients, listPatients};

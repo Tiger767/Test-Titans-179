@@ -6,8 +6,8 @@ import PageIllustration from '../partials/PageIllustration';
 import Banner from '../partials/Banner';
 import Button from "react-bootstrap/Button";
 import SideMenu from '../components/SideMenu';
-import AddBox from "@material-ui/icons/AddBox";
-import ArrowDownward from "@material-ui/icons/ArrowDownward";
+//import AddBox from "@material-ui/icons/AddBox";
+//import ArrowDownward from "@material-ui/icons/ArrowDownward";
 
 //Create a page for admin view the includes the following:
 //1. A side menu with the following options:
