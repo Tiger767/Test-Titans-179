@@ -74,7 +74,7 @@ function Bavaria() {
                   ⭮
                 </button>
                           
-            <div className="flex flex-col">
+              <div className="flex flex-col justify-end float-right">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-purple-500">
                   <tr>
