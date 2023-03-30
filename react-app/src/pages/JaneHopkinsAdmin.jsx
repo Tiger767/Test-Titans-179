@@ -191,7 +191,7 @@ function JaneHopkinsAdmin() {
                       <Checkbox
                         //label based on if its true or false and make the label red if false and green if true
                         disabled={editingPatient !== patient._id}
-                        label = {patient.eligibility ? "Eligible" : "Not Eligible"}
+                        label = {patient.eligibility ? "text" : "Not Eligible"}
                         sytle={{color: patient.eligibility ? "text-sm text-green-900": "text-sm text-red-900"}}
                         value={patient.eligibility}
                         onChange={(e) => handlePatientEdit(index, "eligibility", e.target.checked)}

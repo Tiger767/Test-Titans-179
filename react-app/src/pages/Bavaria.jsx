@@ -1,115 +1,195 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect,Fragment} from 'react';
+
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageIllustration from '../partials/PageIllustration';
-import Banner from '../partials/Banner';
-import Button from "react-bootstrap/Button";
 import SideMenu from '../components/SideMenu';
-//import AddBox from "@material-ui/icons/AddBox";
-//import ArrowDownward from "@material-ui/icons/ArrowDownward";
+import {listPatients, editPatient} from '../backend/janeHopkins';
+import { Form } from 'react-router-dom';
 
-//Create a page for admin view the includes the following:
-//1. A side menu with the following options:
-//a. Dashboard
-//b. users
-//c. appointments
-//d. reports
-//e. settings
-////2. A dashboard that includes the following:
-//a. A list of patients
-//b. A list of appointments
-//c. A list of reports
-//d. A list of settings
-//e. A list of users
-//f. A list of roles
-////Other notes:
-//1. The dashboard should be the default page
-//2. The dashboard should be the only page that is visible to the admin
-//3. The admin should be able to add, edit, and delete users, appointments, reports, settings, and roles
-//4. The admin should be able to view the list of users, appointments, reports, settings, and roles
-//Code for the dashboard page
+
 function Bavaria() {
+
+ 
+  const [patients, setPatients] = React.useState([]);
+  const [editingPatient, setEditingPatient] =  React.useState(null);
+ 
+
+  useEffect(() => {
+    listPatients().then((patients) => {
+      setPatients(patients);
+    });
+  }, []);
+
+  const handlePatientEdit = (patientIndex, field, value) => {
+    const updatedPatients = [...patients];
+    updatedPatients[patientIndex][field] = value;
+    setPatients(updatedPatients);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingPatient(null);
+  };
+
+  const handleSaveEdit = async (event,updatedPatient) => {
+    event.preventDefault();
+    await editPatient(updatedPatient);
+    const updatedPatients = patients.map((patient) => {
+      if (patient._id === updatedPatient._id) {
+        return updatedPatient;
+      } else {
+        return patient;
+      }
+    });
+    setPatients(updatedPatients);
+    setEditingPatient(null);
+  };
+  const Checkbox = ({ label, value, onChange }) => {
+    return (
+      <label>
+        <input type="checkbox" checked={value} onChange={onChange} />
+        {label}
+      </label>
+    );
+  };
+
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
-      {/*  Site header */}
       <Header />
-      {/*  Page content */}
       <main className="grow">
-        {/*  Page illustration */}
         <div className="relative max-w-6xl mx-auto h-0 pointer-events-none" aria-hidden="true">
           <PageIllustration />
         </div>
         <section className="relative">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="pt-32 pb-12 md:pt-40 md:pb-20">
-            <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
+              <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
                 <h2 className="h1">Bavaria</h2>
-                <h3 className="h\3">Adminstration Page</h3>
-                </div>
+                <h3 className="h2">Adminstration page </h3>
               </div>
-           {/*Create query table*/}
+            </div>
+            
+                {/*Create a refresh button to refresh the page make the button a circle*/}
+                  <button onClick ={() => window.location.reload()} className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full">
+                  ⭮
+                </button>
+                          
             <div className="flex flex-col">
-             
-              <div className="-my-2 overflow-x-auto sm:-mx-8 lg:-mx-15">
-                <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          
-                  {/* <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"> */}
-                  {/* <div className= "bg-white shadow overflow-hidden sm:rounded-lg"> */}
-                    {/* <table className="min-w-full divide-y divide-gray-200">
-                       
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Id
-                          </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Name
-                          </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Email
-                          </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Appointment
-                          </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          # of Doses Given
-                          </th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Type
-                          </th>
-                         
-                          </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
-                        <tr>
-                          <td className="px-6 py-20 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <div className="flex-shrink-0 h-10 w-10">
-                                
-                                
-                                </div>
-                                </div>
-                                </td>
-                                </tr>
-
-                          </tbody>
-                        </table> */}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* </div> */}
-              {/* </div> */}
-            {/*Side Menu*/}   
-             <SideMenu />
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-purple-500">
+                  <tr>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
+                      Patient ID
+                    </th>
                    
-       </section>
-        
+              
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
+                      Doses
+                    </th>
+                   
+                 
+                
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
+                      HIV Status
+                    </th>
+                  
+         
+                    
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {patients.map((patient, index) => (
+                    <tr key={patient._id}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div
+                          contentEditable={editingPatient === patient._id}
+                          onBlur={(e) => handlePatientEdit(index, "_id", e.target.textContent)}
+                          suppressContentEditableWarning
+                          className="text-sm text-gray-900"
+                        >
+                          {patient._id}
+                        </div>
+                      </td>
+                   
+                     
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div
+                          contentEditable={editingPatient === patient._id}
+                          onBlur={(e) => handlePatientEdit(index, "currentTotalDoses", e.target.textContent)}
+                          suppressContentEditableWarning
+                          className="text-sm text-gray-900"
+                        >
+                          {patient.currentTotalDoses}
+                        </div>
+                      </td>
+                     
+                      <td className="px-6 py-4 whitespace-nowrap">
+                <div >
+                      <Checkbox
+                        //label based on if its true or false and make the label red if false and green if true
+                        disabled={editingPatient !== patient._id}
+                        label = {patient.eligibility ? "HIV" : "No HIV"}
+                        sytle={{color: patient.eligibility ? "text-sm text-green-900": "text-sm text-red-900"}}
+                        value={patient.eligibility}
+                        onChange={(e) => handlePatientEdit(index, "eligibility", e.target.checked)}
+                  
+                     
+                       
+                          
+                      />
+      
+                      {patient.eligibility}
+                      </div>
+                      
+                       
+                      </td>
+                      
+                
+
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        {editingPatient === patient._id ? (
+                          <Fragment>
+                            <button
+                              onClick={ (event) => handleSaveEdit(event,patient)}
+                              className="text-indigo-600 hover:text-indigo-900"
+                            >
+                              Save
+                            </button>
+                            <button
+                              onClick={handleCancelEdit}
+                              className="text-indigo-600 hover:text-indigo-900"
+                            >
+                              Cancel
+                            </button>
+                          </Fragment>
+                        ) : (
+                          <button
+                            onClick={() => setEditingPatient(patient._id)}
+                            className="text-indigo-600 hover:text-indigo-900"
+                          >
+                            Edit
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+                          
+            <SideMenu />
+          </div>
+        </section>
       </main>
-      {/*  Site footer */}
       <Footer />
-    </div>  
-   )
-}    
+    </div>
+
+  );
+                      
+
+}  
 export default Bavaria;
