@@ -60,6 +60,9 @@ function Header() {
                 <Link to="/janeHopkinsAdmin" className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out">Jane Hopkins Admin</Link>
               </li>
               <li>
+                <Link to="/Bavaria" className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out">Bavaria Admin</Link>
+              </li>
+              <li>
                 <Link to="/signin" className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out">Sign in</Link>
               </li>
               <li>
