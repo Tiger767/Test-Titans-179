@@ -90,18 +90,21 @@ function Bavaria() {
                     className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
                     Doses
                   </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
+                      Actions
+                    </th>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                   <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">Bavaria Drug </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-black">Bavaria Drug </td>
                     <tr>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap text-black">
                         <div>
-                        <input type="number" step="1" style={{ width: "150px" }} />
+                        <input type="number" step="1" style={{ width: "100px" }} />
                         </div>
                       </td>
                     </tr>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td class="px-6 py-4 whitespace-nowrap text-black">
                       <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Create
                       </button>
@@ -109,15 +112,15 @@ function Bavaria() {
                   
                   </tr>
                   <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">Placebo</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-black">Placebo</td>
                     <tr>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap text-black">
                         <div>
-                        <input type="number" step="1" style={{ width: "150px" }} />
+                        <input type="number" step="1" style={{ width: "100px" }} />
                         </div>
                       </td>
                     </tr>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td class="px-6 py-4 whitespace-nowrap text-black">
                       <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Create
                       </button>
