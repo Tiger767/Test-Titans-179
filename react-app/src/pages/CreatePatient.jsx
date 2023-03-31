@@ -15,30 +15,43 @@ function CreatePatient() {
     const [name, setName] = React.useState("");
     const [dob, setDob] = React.useState("");
     const [doses, setDoses] = React.useState("");
-    
+    const [visits, setVisits] = React.useState("");
+    const [height, setHeight] = React.useState("");
+    const [weight, setWeight] = React.useState("");
+    const [allergies, setAllergies] = React.useState("");
+    const [oxygen, setOxygen] = React.useState("");
+    const [bloodPressure, setBloodPressure] = React.useState("");
+    const [currentMedications, setCurrentMedications] = React.useState("");
+    const [familyHistory, setFamilyHistory] = React.useState("");
+    const [currentlyEmployed, setCurrentlyEmployed] = React.useState("");
+    const [icdHealthCodes, setIcdHealthCodes] = React.useState("");
+    const [eligibility, setEligibility] = React.useState("");
+    const [notes, setNotes] = React.useState("");
+
+
+    //Need to work on fields with multiple objects as well as making the format better
     const handleSubmit = (event) => {
         event.preventDefault();
         const patient = {
             name: name,
             dob: dob,
-            doses: doses
+            doses: doses,
+            height: height,
+            weight: weight,
+            oxygen: oxygen,
+            bloodPressure: bloodPressure,
         }
         
-        addPatient(patient).then((data) => {
-            if (data.error) {
-                console.log(data.error);
-            } else {
-                console.log(data);
-            }
-        });
+        addPatient(patient).then((patient) => {
+            console.log(patient);
+        })
+
     }
 
   
     return (
       <div className="flex flex-col min-h-screen overflow-hidden">
-        {/* Site header */}
-        <Header />
-    
+      
         {/* Page content */}
         <main className="grow">
           {/* Page illustration */}
@@ -54,9 +67,6 @@ function CreatePatient() {
                 {/* Page header */}
                 <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
                   <h1 className="h2 mb-4">Create Patient</h1>
-                  <p className="text-xl text-gray-600">
-                    Create a patient
-                  </p>
                 </div>
               </div>
     
@@ -99,24 +109,65 @@ function CreatePatient() {
                         value={doses}
                         onChange={(event) => setDoses(event.target.value)}
                       />
-                      <div className="mt-6">
+                      <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="height">
+                        Height
+                      </label>
+                      <input
+                        id="height" 
+                        type="text"
+                        className="form-input w-full text-gray-800"
+                        placeholder="5' 10"
+                        value={height}
+                        onChange={(event) => setHeight(event.target.value)}
+                      />
+                      <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="weight">
+                        Weight
+                      </label>
+                      <input
+                        id="weight"
+                        type="text"
+                        className="form-input w-full text-gray-800"
+                        placeholder="150"
+                        value={weight}
+                        onChange={(event) => setWeight(event.target.value)}
+                      />
+                      <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="oxygen">
+                        Oxygen
+                      </label>
+                      <input
+                        id="oxygen"
+                        type="text"
+                        className="form-input w-full text-gray-800"
+                        placeholder="98%"
+                        value={oxygen}
+                        onChange={(event) => setOxygen(event.target.value)}
+                      />
+                      <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="bloodPressure">
+                        Blood Pressure
+                      </label>
+                      <input
+                        id="bloodPressure"
+                        type="text"
+                        className="form-input w-full text-gray-800"
+                        placeholder="120/80"
+                        value={bloodPressure}
+                        onChange={(event) => setBloodPressure(event.target.value)}
+                      />
+                     <div className="mt-6">
                         <button
                           type="submit"
                           className="btn btn-primary w-full hover:bg-gray-900"
                         >
                           Create Patient
                         </button>
-                    
                       </div>
-                      </div>
-                      </div>
-                      </form>
-                      
-                      </div>
-                      </div>
-                
-          </section>
-        </main>
+                  </div>
+              </div>
+          </form>
+       </div>
+      </div>             
+   </section>
+</main>
     
         {/* Site footer */}
         <Footer />

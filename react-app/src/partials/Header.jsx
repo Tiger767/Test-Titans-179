@@ -54,10 +54,10 @@ function Header() {
                 <Link to="/testVendia" className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out">Test Vendia</Link>
               </li>
               <li>
-                <Link to="/janeHopkinsDoctor" className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out">Jane Hopkins Doctor</Link>
+                <Link to="/janeHopkinsAdmin" className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out">Jane Hopkins Doctor</Link>
               </li>
               <li>
-                <Link to="/janeHopkinsAdmin" className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out">Jane Hopkins Admin</Link>
+                <Link to="/janeHopkinsRealAdmin" className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out">Jane Hopkins Admin</Link>
               </li>
               <li>
                 <Link to="/Bavaria" className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out">Bavaria Admin</Link>

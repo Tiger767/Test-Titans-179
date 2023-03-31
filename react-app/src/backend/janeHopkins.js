@@ -22,17 +22,6 @@ const editPatient = async (updatedPatient) => {
 
     console.log("editPatient", updatedPatient);
    
-  //  const patients = getAllPatients(true);   
- //const patient = updatedPatient;
-//  if(patient.id === patients.id){
-//       console.log("editPatient", patients);
-
-//  }
-  
-//     if(!patient || !patient._id){
-//       console.error("Invalid patient");
-//       return;
-//     }
 
 
 
@@ -81,7 +70,7 @@ const addPatient = async({name="Unknown", patientPicture="None", dob="1970-01-01
                           currentlyInsured="Unknown", icdHealthCodes=[], allergies=[]}) => {
     // Exclude ICD-10 Pregnancy codes - O00–O99
     // Exclude DOB greater than 1/1/2005
-    const hasPregnancyCode = icdHealthCodes.some(code => code.code.startsWith('O'));
+    const hasPregnancyCode = icdHealthCodes.some(code => code.startsWith('O'));
     const isBefore2005 = new Date(dob) < new Date('2005-01-01');
     const eligibility = !hasPregnancyCode && isBefore2005;
     const currentTotalDoses = 0;
@@ -209,7 +198,7 @@ const addPatientDrug = async (ndx) => {
 // Update visits array of the patient by adding a new visit object
 // with the visit date and visit notes
 // check for duplicate visits
-const addPatientVisit = async ({ndx, dateTime, notes}) => {
+const addPatientVisit = async ({dateTime, notes}) => {
   const patient = await getPatient({ ndx });
   if (!patient || !patient._id) {
     console.error("Invalid patient");
@@ -231,6 +220,7 @@ const addPatientVisit = async ({ndx, dateTime, notes}) => {
   );
 
   console.log("addPatientVisitResponse", addPatientVisitResponse);
+  return patient.items;
 };
 
 

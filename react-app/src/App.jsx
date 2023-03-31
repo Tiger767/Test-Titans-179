@@ -19,6 +19,7 @@ import JaneHopkinsAdmin from './pages/JaneHopkinsAdmin';
 import JaneHopkinsDoctor from './pages/JaneHopkinsDoctor';
 import Bavaria from './pages/Bavaria';
 import CreatePatient from './pages/CreatePatient';
+import JaneHopkinsRealAdmin from './pages/JaneHopkinsRealAdmin';
 
 
 
@@ -53,6 +54,7 @@ function App() {
         <Route path="/janeHopkinsDoctor" element={<JaneHopkinsDoctor />} />
         <Route path="/bavaria" element={<Bavaria />} />
         <Route path="/createPatient" element={<CreatePatient />} />
+        <Route path="/janeHopkinsRealAdmin" element={<JaneHopkinsRealAdmin />} />
         
       </Routes>
       

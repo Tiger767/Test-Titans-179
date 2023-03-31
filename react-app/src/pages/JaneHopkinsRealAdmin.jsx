@@ -1,23 +1,25 @@
 import React, { useEffect,Fragment} from 'react';
-
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageIllustration from '../partials/PageIllustration';
 import SideMenu from '../components/SideMenu';
-import {listPatients, editPatient} from '../backend/janeHopkins';
+import {listPatients, editPatient,sharePatients} from '../backend/janeHopkins';
 import { Form } from 'react-router-dom';
+import CreatePatient from '../pages/CreatePatient';
 
-//The Doctor Page
-function JaneHopkinsAdmin() {
 
- 
-  const [patients, setPatients] = React.useState([]);
+ function JaneHopkinsRealAdmin(){
+ const [patients, setPatients] = React.useState([]);
   const [editingPatient, setEditingPatient] =  React.useState(null);
  
 
   useEffect(() => {
-    listPatients().then((patients) => {
-      setPatients(patients);
+    listPatients().then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setPatients(data);
+      }
     });
   }, []);
 
@@ -44,14 +46,8 @@ function JaneHopkinsAdmin() {
     setPatients(updatedPatients);
     setEditingPatient(null);
   };
-  const Checkbox = ({ label, value, onChange }) => {
-    return (
-      <label>
-        <input type="checkbox" checked={value} onChange={onChange} />
-        {label}
-      </label>
-    );
-  };
+ 
+//Search filter by name
 const [query, setQuery] = React.useState("");
 const [filteredPatients, setFilteredPatients] = React.useState(patients);
 
@@ -62,6 +58,14 @@ React.useEffect(() => {
     )
   );
 }, [query, patients]);
+
+const [isAdministrator, setIsAdministrator] = React.useState(false);
+
+React.useEffect(() => {
+  sharePatients(isAdministrator);
+}, [isAdministrator]);
+
+
 
 
 
@@ -77,7 +81,7 @@ React.useEffect(() => {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="pt-32 pb-12 md:pt-40 md:pb-20">
               <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-                <h2 className="h1">Jane Hopkins</h2>
+                <h2 className="h1">Jane Hopkins Admin Page </h2>
               </div>
             </div>
             
@@ -86,8 +90,9 @@ React.useEffect(() => {
                   ⭮
                 </button>
                           
-        <div className={`flex flex-col`} style={{maxWidth: '100%', overflowX: 'auto'}}>
-        <div className = {`bg-purple-500`} style={{maxWidth: '100%', overflowX: 'auto'}} >
+            <div className={`flex flex-col`} style={{maxWidth: '100%', overflowX: 'auto'}}>
+            <div className = {`bg-purple-500`} style={{maxWidth: '100%', overflowX: 'auto'}} >
+                    
                     <input
                       type="text"
                       placeholder="Search Patients"
@@ -95,22 +100,20 @@ React.useEffect(() => {
                       onChange={(event) => setQuery(event.target.value)}
                       style={{width: '50%', height: '100%', indent: '50px'}}
                     />
-                          <button
-                          //Redirect to CreatePatient page
-                          onClick={() => window.location.href = '/CreatePatient'}
-                          className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4"
-                        >
-                          Add Patient
-                        </button>
-                
-        <div style={{marginLeft: 'auto', marginRight: '50px'}}>
-        </div>
-              <table className="divide-y divide-gray-200" style={{width: '100%'}} >
+                    <button class = "bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full"
+                      type="button"
+                      onClick={() => setIsAdministrator(!isAdministrator)}
+                      style={{width: '50%', height: '100%'}}
+                    >
+                      Submit Eligible Patients
+                    </button>
+                    
+                    
+           <div style={{marginLeft: 'auto', marginRight: '50px'}}></div>
+                   
+              <table className="mw-100 divide-y divide-gray-200" style={{width: '100%'} }patients = {patients}>
                 <thead className="bg-purple-500">
                   <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
-                      Patient ID
-                    </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
                       Name
                     </th>
@@ -121,41 +124,25 @@ React.useEffect(() => {
                       Doses
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
-                      Weight
+                      Eligible
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
-                      Height
-                    </th>
-                    <th scope= "col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
-                      Blood Pressure
+                      HIV Viral Load
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
-                      eligible
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
-                      Insurance #
-                    </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
-                       ICD Code
+                      Tracking Number
                     </th>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+      
+                  
+              <tbody className="bg-white divide-y divide-gray-200">
                   {filteredPatients.map((patient, index) => (
                     <tr key={patient._id}>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div
-                          contentEditable={editingPatient === patient._id}
-                          onBlur={(e) => handlePatientEdit(index, "_id", e.target.textContent)}
-                          suppressContentEditableWarning
-                          className="text-sm text-gray-900"
-                        >
-                          {patient._id}
-                        </div>
-                      </td>
+            
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div
                           contentEditable={editingPatient === patient._id}
@@ -168,14 +155,14 @@ React.useEffect(() => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div
-                          contentEditable={editingPatient === patient._id}  
-                          onBlur={(e) => handlePatientEdit(index, "dob", e.target.textContent)}
-                          suppressContentEditableWarning
-                          className="text-sm text-gray-900"
-                        >
-                          {patient.dob}
+                            contentEditable={editingPatient === patient._id}
+                            onBlur={(e) => handlePatientEdit(index, "dob", e.target.textContent)}
+                            suppressContentEditableWarning
+                            className="text-sm text-gray-900"
+                            >
+                            {patient.dob}
                         </div>
-                      </td>
+                        </td>                     
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div
                           contentEditable={editingPatient === patient._id}
@@ -186,86 +173,35 @@ React.useEffect(() => {
                           {patient.currentTotalDoses}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div
-                          contentEditable={editingPatient === patient._id}
-                          onBlur={(e) => handlePatientEdit(index, "weight", e.target.textContent)}
-                          suppressContentEditableWarning
-                          className="text-sm text-gray-900"
-                        >
-                          {patient.weight}
-                        </div>
-                      </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div
-                            contentEditable={editingPatient === patient._id}
-                            onBlur={(e) => handlePatientEdit(index, "height", e.target.textContent)}
-                            suppressContentEditableWarning
-                            className="text-sm text-gray-900"
-                          >
-                            {patient.height}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">  
-                          <div
-                            contentEditable={editingPatient === patient._id}
-                            onBlur={(e) => handlePatientEdit(index, "bloodPressure", e.target.textContent)}
-                            suppressContentEditableWarning
-                            className="text-sm text-gray-900"
-                          >
-                            {patient.bloodPressure}
-                          </div>
-                        </td>
-                        
-                      {/*<td className="px-6 py-4 whitespace-nowrap">
-                        <div
-                          contentEditable={editingPatient === patient._id}
-                          onBlur={(e) => handlePatientEdit(index, "bloodType", e.target.textContent)}
-                          suppressContentEditableWarning
-                          className="text-sm text-gray-900"
-                        >
-                          {patient.bloodType}
-                        </div>
-                  </td>*/}
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        
-                <div value = {patient.eligibility}
-                         className="text-sm text-gray-900"
-                         > {patient.eligibility ? "-----" : "-----"} 
-                   {/*                       //label based on if its true or false and make the label red if false and green if true
-                       // disabled={editingPatient === patient._id}
-                        //label = {patient.eligibility ? "Eligible" : "Not Eligible"}
-                       // sytle={{color: patient.eligibility ? "text-sm text-green-900": "text-sm text-red-900"}}
-                      //  value={patient.eligibility}
-                     //   onChange={(e) => handlePatientEdit(index, "eligibility", e.target.checked)} 
-                />*/}
-
-                      {patient.eligibility}
-                      </div> 
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div
-                          contentEditable={editingPatient === patient._id}
-                          onBlur={(e) => handlePatientEdit(index, "insuranceNumber", e.target.textContent)}
-                          suppressContentEditableWarning
-                          className="text-sm text-gray-900"
-                        >
-                          {patient.insuranceNumber}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div
                        
-                          contentEditable={editingPatient === patient._id}
-                          onBlur={(e) => handlePatientEdit(index, "icdHealthCodes", e.target.textContent)}
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div 
+                         value = {patient.eligibility}
+                         className={patient.eligibility ? "text-sm text-green-900" : "text-sm text-red-900"}
+                         > {patient.eligibility ? "Eligible" : "Not Eligible"} 
+                         </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                        <div
+                         onBlur={(e) => handlePatientEdit(index, "visits", e.target.textContent)}
+                         suppressContentEditableWarning
+                         className="text-sm text-gray-900"
+                          > {patient.visits.map((hivViralLoad) => hivViralLoad.hivViralLoad)} </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                        <div
+                          onBlur={(e) => handlePatientEdit(index, "currentDoseFid", e.target.textContent)}
                           suppressContentEditableWarning
                           className="text-sm text-gray-900"
-                          
                         >
-                          {patient.icdHealthCodes.map((code) => code.code)}
-                          
+                          {patient.currentDoseFid}
                         </div>
                       </td>
+                    
+
+                     
+                      
+
 
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         {editingPatient === patient._id ? (
@@ -298,7 +234,7 @@ React.useEffect(() => {
               </table>
               </div>
             </div>
-                          
+            
             <SideMenu />
           </div>
         </section>
@@ -309,5 +245,5 @@ React.useEffect(() => {
   );
                       
 
-}  
-export default JaneHopkinsAdmin;
+};
+export default JaneHopkinsRealAdmin;
