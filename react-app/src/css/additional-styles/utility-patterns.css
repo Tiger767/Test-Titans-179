@@ -39,6 +39,15 @@
     @apply px-4 py-2;
 }
 
+.btn-sign {
+    position: relative;
+    padding: 5px 60px;
+    text-decoration: none;
+    color:var(--white);
+    border-radius: 6px;
+  } 
+
+
 /* Forms */
 .form-input,
 .form-textarea,

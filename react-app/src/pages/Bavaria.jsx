@@ -5,7 +5,7 @@ import React, { useEffect, Fragment } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageIllustration from "../partials/PageIllustration";
-import SideMenu from "../components/SideMenu";
+import SideBar from "../components/SideBar";
 import { listPatients, editPatient } from "../backend/janeHopkins";
 import { Form } from "react-router-dom";
 
@@ -52,18 +52,20 @@ function Bavaria() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen overflow-hidden">
+    <div className="flex flex-col min-h-screen overflow-hidden bg-zinc-200">
       <Header />
+
       <main className="grow">
         <div
           className="relative max-w-6xl mx-auto h-0 pointer-events-none"
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <PageIllustration />
         </div>
         <section className="relative">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="pt-32 pb-12 md:pt-40 md:pb-20">
-              <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
+              <div className="max-w-3xl mx-auto text-center text-black pb-12 md:pb-20">
                 <h2 className="h1">Bavaria</h2>
                 <h3 className="h2">Adminstration page </h3>
               </div>
@@ -72,35 +74,47 @@ function Bavaria() {
             {/*Create a refresh button to refresh the page make the button a circle*/}
             <button
               onClick={() => window.location.reload()}
-              className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full">
+              className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full"
+            >
               ⭮
             </button>
 
-            <div class="flex flex-col justify-end float-left">
-              <table class="min-w-full divide-y divide-gray-200">
+            <div class="flex flex-col justify-end float-left ">
+              <table class="min-w-full divide-y divide-gray-200 ">
                 <thead class="bg-purple-500" col-span="3">
                   <th
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
-                    col-span="3">
+                    col-span="3"
+                  >
                     Create Drug
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
+                    className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                  >
                     Doses
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
-                      Actions
-                    </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                  >
+                    Actions
+                  </th>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                   <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-black">Bavaria Drug </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-black">
+                      Bavaria Drug{" "}
+                    </td>
                     <tr>
-                    <td className="px-6 py-4 whitespace-nowrap text-black">
+                      <td className="px-6 py-4 whitespace-nowrap text-black">
                         <div>
-                        <input type="number" step="1" style={{ width: "100px" }} />
+                          <input
+                            type="number"
+                            step="1"
+                            style={{ width: "100px" }}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -109,14 +123,19 @@ function Bavaria() {
                         Create
                       </button>
                     </td>
-                  
                   </tr>
                   <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-black">Placebo</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-black">
+                      Placebo
+                    </td>
                     <tr>
-                    <td className="px-6 py-4 whitespace-nowrap text-black">
+                      <td className="px-6 py-4 whitespace-nowrap text-black">
                         <div>
-                        <input type="number" step="1" style={{ width: "100px" }} />
+                          <input
+                            type="number"
+                            step="1"
+                            style={{ width: "100px" }}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -142,31 +161,35 @@ function Bavaria() {
                 </thead>
               </table>
                 </div> */}
-            <div className="flex flex-col justify-end float-right">
+            <div className="flex flex-col justify-end float-right ">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-purple-500">
                   <tr>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
+                      className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                    >
                       ID
                     </th>
 
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
+                      className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                    >
                       Doses
                     </th>
 
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
+                      className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                    >
                       HIV Status
                     </th>
 
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider">
+                      className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                    >
                       Actions
                     </th>
                   </tr>
@@ -186,7 +209,8 @@ function Bavaria() {
                             )
                           }
                           suppressContentEditableWarning
-                          className="text-sm text-gray-900">
+                          className="text-sm text-gray-900"
+                        >
                           {patient._id}
                         </div>
                       </td>
@@ -202,7 +226,8 @@ function Bavaria() {
                             )
                           }
                           suppressContentEditableWarning
-                          className="text-sm text-gray-900">
+                          className="text-sm text-gray-900"
+                        >
                           {patient.currentTotalDoses}
                         </div>
                       </td>
@@ -239,7 +264,8 @@ function Bavaria() {
                               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                               onClick={(event) =>
                                 handleSaveEdit(event, patient)
-                              }>
+                              }
+                            >
                               Save
                             </button>
                             {/* <td class="px-6 py-4 whitespace-nowrap">
@@ -254,14 +280,16 @@ function Bavaria() {
 
                             <button
                               class="bg-purple-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                              onClick={handleCancelEdit}>
+                              onClick={handleCancelEdit}
+                            >
                               Cancel
                             </button>
                           </Fragment>
                         ) : (
                           <button
                             class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                            onClick={() => setEditingPatient(patient._id)}>
+                            onClick={() => setEditingPatient(patient._id)}
+                          >
                             Edit
                           </button>
                         )}
@@ -272,7 +300,20 @@ function Bavaria() {
               </table>
             </div>
 
-            <SideMenu />
+            <SideBar
+              firstItem="Dashboard"
+              secondItem="Users"
+              thirdItem="Notes"
+              fourthItem="Payroll"
+              fifthItem="Settings"
+              sixthItem="Sign Out"
+              firstIcon="browsers-outline"
+              secondIcon="person-outline"
+              thirdIcon="reader-outline"
+              fourthIcon="today-outline"
+              fifthIcon="settings-outline"
+              sixthIcon="log-out-outline"
+            />
           </div>
         </section>
       </main>

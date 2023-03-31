@@ -35,7 +35,7 @@ function Header() {
   });
 
   return (
-    <header className="absolute w-full z-30">
+    <header className="absolute w-full z-30 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-20">
           {/* Site branding */}
@@ -53,7 +53,9 @@ function Header() {
           </div>
 
           <div className="inline pl-2 pb-2">
-            <h2 className="font-medium text-xl">Test Titans PharmaStudy</h2>
+            <h2 className="font-medium text-xl text-black ">
+              Test Titans PharmaStudy
+            </h2>
           </div>
 
           {/* Desktop navigation */}
@@ -81,7 +83,7 @@ function Header() {
                   to="/signin"
                   className="btn-sm text-white bg-purple-600 hover:bg-purple-700 ml-3"
                 >
-                  Sign in
+                  Sign out
                 </Link>
               </li>
             </ul>

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Footer from "../components/FooterAlt";
 import PageIllustration from "../partials/PageIllustration";
 import Banner from "../partials/Banner";
 
@@ -32,11 +32,11 @@ function SignIn() {
 
               {/* Form */}
               <div className="max-w-sm mx-auto">
-                <div className=" flex btn relative ">
+                <div className=" flex btn-sign relative ">
                   <form className="text-black">
                     <label className="" for="dashboard-names"></label>
                     <select
-                      className="p-20 py-3 w-max bg-gray-300"
+                      className="p-20 py-3 w-max bg-zinc-300 text-lg font-medium rounded-md shadow"
                       name="dashboard-options"
                       id="dashboard-names"
                     >

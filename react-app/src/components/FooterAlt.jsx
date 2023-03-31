@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Footer() {
   return (
     <footer>
-      <div className="py-12 md:py-16 bg-white mt-10">
+      <div className="py-12 md:py-16 mt-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           {/* Top area: Blocks */}
           <div className="grid md:grid-cols-12 gap-8 lg:gap-20 mb-8 md:mb-12">
@@ -22,7 +22,7 @@ function Footer() {
                   </svg>
                 </Link>
               </div>
-              <div className="text-black">
+              <div className="text-white">
                 Vendia is a venture-backed Saas startup founded in 2020 by Dr.
                 Tim Wagner and Shruthi Rao. Wagner is the inventor of AWS Lambda
                 and the "Father of Serverless" computing. Rao is the founder of
@@ -39,7 +39,7 @@ function Footer() {
                   <li className="mb-1">
                     <Link
                       to="https://www.vendia.com/docs/share"
-                      className="text-black hover:text-gray-100 transition duration-150 ease-in-out"
+                      className="text-white hover:text-gray-100 transition duration-150 ease-in-out"
                     >
                       Documentation
                     </Link>
@@ -47,7 +47,7 @@ function Footer() {
                   <li className="mb-1">
                     <Link
                       to="https://www.vendia.com/docs/share/graphql"
-                      className="text-black hover:text-gray-100 transition duration-150 ease-in-out"
+                      className="text-white hover:text-gray-100 transition duration-150 ease-in-out"
                     >
                       Vendia Share APIs
                     </Link>
@@ -55,7 +55,7 @@ function Footer() {
                   <li className="mb-1">
                     <Link
                       to="https://www.vendia.com/docs/share/cli"
-                      className="text-black hover:text-gray-100 transition duration-150 ease-in-out"
+                      className="text-white hover:text-gray-100 transition duration-150 ease-in-out"
                     >
                       Vendia Share CLI
                     </Link>
@@ -70,7 +70,7 @@ function Footer() {
                   <li className="mb-1">
                     <Link
                       to="https://www.vendia.com/blog"
-                      className="text-black hover:text-gray-100 transition duration-150 ease-in-out"
+                      className="text-white hover:text-gray-100 transition duration-150 ease-in-out"
                     >
                       Blog
                     </Link>
@@ -78,7 +78,7 @@ function Footer() {
                   <li className="mb-1">
                     <Link
                       to="https://www.vendia.com/press"
-                      className="text-black hover:text-gray-100 transition duration-150 ease-in-out"
+                      className="text-white hover:text-gray-100 transition duration-150 ease-in-out"
                     >
                       Press
                     </Link>
@@ -93,7 +93,7 @@ function Footer() {
                   <li className="mb-1">
                     <Link
                       to="https://www.vendia.com/about"
-                      className="text-black hover:text-gray-100 transition duration-150 ease-in-out"
+                      className="text-white hover:text-gray-100 transition duration-150 ease-in-out"
                     >
                       About Us
                     </Link>
@@ -101,7 +101,7 @@ function Footer() {
                   <li className="mb-1">
                     <Link
                       to="https://www.vendia.com/careers"
-                      className="text-black hover:text-gray-100 transition duration-150 ease-in-out"
+                      className="text-white hover:text-gray-100 transition duration-150 ease-in-out"
                     >
                       Careers
                     </Link>
@@ -109,7 +109,7 @@ function Footer() {
                   <li className="mb-1">
                     <Link
                       to="https://www.vendia.com/kind-humans"
-                      className="text-black hover:text-gray-100 transition duration-150 ease-in-out"
+                      className="text-white hover:text-gray-100 transition duration-150 ease-in-out"
                     >
                       Kind Human Policy
                     </Link>
@@ -117,7 +117,7 @@ function Footer() {
                   <li className="mb-1">
                     <Link
                       to="https://www.vendia.com/legal/privacy-policy"
-                      className="text-black hover:text-gray-100 transition duration-150 ease-in-out"
+                      className="text-white hover:text-gray-100 transition duration-150 ease-in-out"
                     >
                       Privacy Policy
                     </Link>
@@ -130,7 +130,7 @@ function Footer() {
           {/* Bottom area */}
           <div className="md:flex md:items-center md:justify-between">
             {/* Copyrights note */}
-            <div className="text-black text-sm mr-4">&copy; Test Titans</div>
+            <div className="text-white text-sm mr-4">&copy; Test Titans</div>
           </div>
         </div>
       </div>
