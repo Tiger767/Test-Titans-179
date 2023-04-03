@@ -9,12 +9,6 @@ const client = createVendiaClient({
 })
 
 const {entities} = client;
-const listPatients = async() => {
-    const patients = await entities.patient.list();
-    //console.log("listPatients", patients.items[0].id);
-    return patients.items;
-};
-
 
 
 //Make this work on the front end
@@ -147,10 +141,7 @@ const addPatient = async({name="Unknown", patientPicture="None", dob="1970-01-01
 // Need to pair drug and patient, basically like giving the patient a dosage of the drug
 // Update currentTotalDoses and currentDoseFid of the patient by searching Drugs for one assigned
 // to the patient (patientUuid === patient.uuid) and used is null (doesnt exist) then add with value if true
-const addPatientDrug = async (ndx) => {
-  // get all patients
-  const patient = await getPatient({ ndx });
-
+const addPatientDrug = async (patient) => {
   if (!patient || !patient._id) {
     console.error("Invalid patient");
     return;
@@ -188,6 +179,34 @@ const addPatientDrug = async (ndx) => {
   );
   console.log("addPatientDrug", updatePatientDosesResponse);
 }
+
+
+const givePatientDose = async (drug, patientUuid) => {
+  const patient = await getPatient({ uuid: patientUuid });
+
+  if (!patient || !patient._id) {
+    console.error("Invalid patient");
+    return;
+  }
+
+  if (drug.used == true) {
+    console.log("Dose already used");
+    return;
+  }
+
+  const updateDrugResponse = entities.drug.update(
+    { _id: drug._id, used: true }
+  );
+  console.log("givePatientDose", updateDrugResponse);
+
+  const currentTotalDoses = patient.currentTotalDoses + 1;
+  const currentDoseFid = drug.fid;
+  const updatePatientDosesResponse = await entities.patient.update(
+    { _id: patient._id, currentTotalDoses, currentDoseFid }
+  );
+  console.log("givePatientDose", updatePatientDosesResponse);
+}
+
 
 // Doctor view
 // Need to add a patient visit/appointment to a patient
@@ -293,6 +312,7 @@ const getAllPatients = async(isAdmin = false) => {
       })       
     }
   console.log("getAllPatients", allPatients);
+  return allPatients.items;
 }
 
 const getEligiblePatients = async() => {
@@ -326,4 +346,4 @@ const removeAllPatients = async() => {
 }
 
 
-export { addPatient, getAllDrugs, getAllPatients, getEligiblePatients, sharePatients, addPatientVisit, editPatient, addPatientDrug, getPatient, removeAllPatients, listPatients};
+export { addPatient, getAllDrugs, getAllPatients, getEligiblePatients, sharePatients, addPatientVisit, editPatient, addPatientDrug, getPatient, removeAllPatients, givePatientDose };

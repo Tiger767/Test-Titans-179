@@ -17,9 +17,9 @@ import SignUp from './pages/SignUp';
 import ResetPassword from './pages/ResetPassword';
 import JaneHopkinsAdmin from './pages/JaneHopkinsAdmin';
 import JaneHopkinsDoctor from './pages/JaneHopkinsDoctor';
+import FDA from './pages/FDA';
 import Bavaria from './pages/Bavaria';
 import CreatePatient from './pages/CreatePatient';
-import JaneHopkinsRealAdmin from './pages/JaneHopkinsRealAdmin';
 
 
 
@@ -50,11 +50,11 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/janeHopkinsAdmin" element={<JaneHopkinsAdmin />} />
         <Route path="/janeHopkinsDoctor" element={<JaneHopkinsDoctor />} />
         <Route path="/bavaria" element={<Bavaria />} />
         <Route path="/createPatient" element={<CreatePatient />} />
-        <Route path="/janeHopkinsRealAdmin" element={<JaneHopkinsRealAdmin />} />
+        <Route path="/janeHopkinsAdmin" element={<JaneHopkinsAdmin />} />
+        <Route path="/fda" element={<FDA />} />
         
       </Routes>
       

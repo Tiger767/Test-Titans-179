@@ -4,21 +4,19 @@ import Footer from "../components/Footer";
 import PageIllustration from "../partials/PageIllustration";
 import SideBar from "../components/SideBar";
 import {
-  getAllPatients,
-  editPatient,
-  sharePatients,
+  getEligiblePatients,
   getAllDrugs,
-} from "../backend/janeHopkins";
-import { Form } from "react-router-dom";
-import CreatePatient from "../pages/CreatePatient";
+  labelDoses,
+  assignDoses,
+  shareDoseAssignments
+} from "../backend/fda";
 
-function JaneHopkinsAdmin() {
+function FDA() {
   const [patients, setPatients] = React.useState([]);
   const [drugs, setDrugs] = React.useState([]);
-  const [editingPatient, setEditingPatient] = React.useState(null);
 
   useEffect(() => {
-    getAllPatients(true).then((data) => {
+    getEligiblePatients().then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -34,30 +32,6 @@ function JaneHopkinsAdmin() {
     });
   }, []);
 
-  const handlePatientEdit = (patientIndex, field, value) => {
-    const updatedPatients = [...patients];
-    updatedPatients[patientIndex][field] = value;
-    setPatients(updatedPatients);
-  };
-
-  const handleCancelEdit = () => {
-    setEditingPatient(null);
-  };
-
-  const handleSaveEdit = async (event, updatedPatient) => {
-    event.preventDefault();
-    await editPatient(updatedPatient);
-    const updatedPatients = patients.map((patient) => {
-      if (patient._id === updatedPatient._id) {
-        return updatedPatient;
-      } else {
-        return patient;
-      }
-    });
-    setPatients(updatedPatients);
-    setEditingPatient(null);
-  };
-
   //Search filter by name
   const [query, setQuery] = React.useState("");
   const [filteredPatients, setFilteredPatients] = React.useState(patients);
@@ -65,16 +39,10 @@ function JaneHopkinsAdmin() {
   React.useEffect(() => {
     setFilteredPatients(
       patients.filter((patient) =>
-        patient.name.toLowerCase().includes(query.toLowerCase())
+        patient.uuid.toLowerCase().includes(query.toLowerCase())
       )
     );
   }, [query, patients]);
-
-  const [isAdministrator, setIsAdministrator] = React.useState(false);
-
-  React.useEffect(() => {
-    sharePatients(isAdministrator);
-  }, [isAdministrator]);
 
   return (
     <div className="flex flex-col min-h-screen overflow-hidden bg-zinc-200">
@@ -90,7 +58,7 @@ function JaneHopkinsAdmin() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="pt-32 pb-12 md:pt-40 md:pb-20">
               <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20 text-black">
-                <h2 className="h1">Jane Hopkins Admin Page </h2>
+                <h2 className="h1">FDA Page </h2>
               </div>
             </div>
 
@@ -121,11 +89,30 @@ function JaneHopkinsAdmin() {
                 <button
                   class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full"
                   type="button"
-                  onClick={() => setIsAdministrator(!isAdministrator)}
+                  onClick={() => assignDoses(true)}
                   style={{ width: "50%", height: "100%" }}
                 >
-                  Share Eligible Patient Info (End of Trial)
+                  Assign Placebo Drugs Equally
                 </button>
+
+                <button
+                  class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full"
+                  type="button"
+                  onClick={() => assignDoses(false)}
+                  style={{ width: "50%", height: "100%" }}
+                >
+                  Assign Bavaria Drugs Equally
+                </button>
+
+                <button
+                  class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full"
+                  type="button"
+                  onClick={() => shareDoseAssignments()}
+                  style={{ width: "50%", height: "100%" }}
+                >
+                  Share Assignments (End of Trial)
+                </button>
+
 
                 <div style={{ marginLeft: "auto", marginRight: "50px" }}></div>
 
@@ -158,12 +145,6 @@ function JaneHopkinsAdmin() {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
                       >
-                        Eligible
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
-                      >
                         HIV Viral Load
                       </th>
                       <th
@@ -185,130 +166,50 @@ function JaneHopkinsAdmin() {
                     {filteredPatients.map((patient, index) => (
                       <tr key={patient._id}>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div
-                            contentEditable={editingPatient === patient._id}
-                            onBlur={(e) =>
-                              handlePatientEdit(
-                                index,
-                                "name",
-                                e.target.textContent
-                              )
-                            }
-                            suppressContentEditableWarning
-                            className="text-sm text-gray-900"
-                          >
+                          <div className="text-sm text-gray-900">
                             {patient.name}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div
-                            contentEditable={editingPatient === patient._id}
-                            onBlur={(e) =>
-                              handlePatientEdit(
-                                index,
-                                "dob",
-                                e.target.textContent
-                              )
-                            }
-                            suppressContentEditableWarning
-                            className="text-sm text-gray-900"
-                          >
+                          <div className="text-sm text-gray-900">
                             {patient.dob}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div
-                            contentEditable={editingPatient === patient._id}
-                            onBlur={(e) =>
-                              handlePatientEdit(
-                                index,
-                                "currentTotalDoses",
-                                e.target.textContent
-                              )
-                            }
-                            suppressContentEditableWarning
-                            className="text-sm text-gray-900"
-                          >
+                          <div className="text-sm text-gray-900">
                             {patient.currentTotalDoses}
                           </div>
                         </td>
 
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div
-                            value={patient.eligibility}
-                            className={
-                              patient.eligibility
-                                ? "text-sm text-green-900"
-                                : "text-sm text-red-900"
-                            }
-                          >
+                          <div className="text-sm text-gray-900">
                             {" "}
-                            {patient.eligibility ? "Eligible" : "Not Eligible"}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div
-                            onBlur={(e) =>
-                              handlePatientEdit(
-                                index,
-                                "visits",
-                                e.target.textContent
-                              )
-                            }
-                            suppressContentEditableWarning
-                            className="text-sm text-gray-900"
-                          >
-                            {" "}
-                            {patient.visits.map(
+                            {patient.visits && patient.visits.map(
                               (hivViralLoad) => hivViralLoad.hivViralLoad
                             )}{" "}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div
-                            onBlur={(e) =>
-                              handlePatientEdit(
-                                index,
-                                "currentDoseFid",
-                                e.target.textContent
-                              )
-                            }
-                            suppressContentEditableWarning
-                            className="text-sm text-gray-900"
-                          >
+                          <div className="text-sm text-gray-900">
                             {patient.currentDoseFid}
                           </div>
                         </td>
-
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          {editingPatient === patient._id ? (
-                            <Fragment>
-                              <button
-                                onClick={(event) => handleSaveEdit(event, patient)}
-                                className="text-white bg-green-500 hover:bg-green-700 px-3 py-1 rounded mr-2"
-                              >
-                                Save
-                              </button>
-                              <button
-                                onClick={handleCancelEdit}
-                                className="text-white bg-red-500 hover:bg-red-700 px-3 py-1 rounded"
-                              >
-                                Cancel
-                              </button>
-                            </Fragment>
-                          ) : (
-                            <button
-                              onClick={() => setEditingPatient(patient._id)}
-                              className="text-white bg-blue-500 hover:bg-blue-700 px-3 py-1 rounded"
-                            >
-                              Edit
-                            </button>
-                          )}
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          None
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+
+                <button
+                  class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full"
+                  type="button"
+                  onClick={() => labelDoses()}
+                  style={{ width: "50%", height: "100%" }}
+                >
+                  Label Doses with FDA ID
+                </button>
 
                 <table className="mw-100 divide-y divide-gray-200" style={{ width: "100%" }}>
                   <thead className="bg-purple-500">
@@ -319,12 +220,28 @@ function JaneHopkinsAdmin() {
                       >
                         FDA ID (Tracking Number)
                       </th>
+
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                      >
+                        Bavaria ID (Tracking Number)
+                      </th>
+
                       <th
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
                       >
                         Patient UUID
                       </th>
+
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                      >
+                        Placebo
+                      </th>
+                      
                       <th
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
@@ -341,7 +258,15 @@ function JaneHopkinsAdmin() {
                           <div className="text-sm text-gray-900">{drug.fid}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{drug.bid}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">{drug.patientUuid}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {drug.placebo ? "Yes" : "No"}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
@@ -376,4 +301,4 @@ function JaneHopkinsAdmin() {
     </div>
   );
 }
-export default JaneHopkinsAdmin;
+export default FDA;
