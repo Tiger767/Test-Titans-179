@@ -97,6 +97,7 @@ const addPatient = async({name="Unknown", patientPicture="None", dob="1970-01-01
         }
     );
     console.log("addPatientResponse", addPatientResponse);
+    return uuid;
 }
 
 // Doctor

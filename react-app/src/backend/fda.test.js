@@ -8,7 +8,6 @@ shareDoseAssignments,
 } from './fda';
 import { createVendiaClient } from '@vendia/client';
 
-
 // TODO: FINISH AND ADAPT TEST
 
 jest.mock('@vendia/client');
@@ -23,7 +22,7 @@ describe('FDA', () => {
         .fn()
         .mockResolvedValue({ items: ['patient1', 'patient2'] });
         createVendiaClient.mockReturnValue({
-        entities: { patient: { list: mockList } },
+        client: {entities: { patient: { list: mockList } }},
         });
 
         const eligiblePatients = await getEligiblePatients();

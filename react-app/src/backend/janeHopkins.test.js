@@ -15,19 +15,21 @@ import {
     givePatientDose
   } from "./janeHopkins";
   
-  // Mocking the API calls and dependencies here
-  // ...
-  
   describe("JaneHopkins functions", () => {
     test("addPatient", async () => {
-      // Test case for addPatient function
-      // ...
+      const uuid = await addPatient({'name'});
+
+      const patient = getPatient({ uuid });
+
+      expect(patient.name).toBe('name');
     });
   
     test("getAllDrugs", async () => {
       // Test case for getAllDrugs function
-      // ...
-    });
+      // ... 
+      const drugs = await getAllDrugs();
+      // all drugs you should be able to see ...
+    }, 10000);
   
     test("getAllPatients", async () => {
       // Test case for getAllPatients function
