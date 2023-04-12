@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import { createACLs, uuidv4,} from "./utils";
 
 const client = createVendiaClient({
-    apiUrl: `https://05bzvc7wo2.execute-api.us-west-1.amazonaws.com/graphql/`,
-    websocketUrl: `wss://4zsow57261.execute-api.us-west-1.amazonaws.com/graphql`,
-    apiKey: 'y2fErgHeP1tcZ2v8LCm2mpavRgB46LXABrRxrqrHTB8',
+    apiUrl: `https://tmrzu1evol.execute-api.us-west-1.amazonaws.com/graphql/`,
+    websocketUrl: `wss://67d5g30ik1.execute-api.us-west-1.amazonaws.com/graphql`,
+    apiKey: '5i94FbphGrv1H7VuUTtunHJPsiEXR1ugp4xfo3TZAZxX',
 })
 
 const {entities} = client;
