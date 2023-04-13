@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageIllustration from "../partials/PageIllustration";
 import SideBar from "../components/SideBar";
+import Modal from "../components/Modal";
 import {
   getParticipants,
   getAllDrugs,
@@ -48,6 +49,22 @@ function Bavaria() {
     addBatchDrug(numDoses, isPlacebo);
   }
 
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [selectedData, setSelectedData] = React.useState([]);
+  
+  const handleOpenModal = (visits) => {
+    if (visits === null)
+      setSelectedData([0, 1, 2, 3, 4, 5]);
+    else {
+      setSelectedData(visits.map((visit) => visit.hivViralLoad));
+    }
+    setModalOpen(true);
+  };
+  
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };  
+
   return (
     <div className="flex flex-col min-h-screen overflow-hidden bg-zinc-200">
       <Header />
@@ -62,7 +79,7 @@ function Bavaria() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="pt-32 pb-12 md:pt-40 md:pb-20">
               <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20 text-black">
-                <h2 className="h1">FDA Page </h2>
+                <h2 className="h1">Bavaria Page</h2>
               </div>
             </div>
 
@@ -103,7 +120,7 @@ function Bavaria() {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
                       >
-                        Name
+                        UUID
                       </th>
                       <th
                         scope="col"
@@ -143,7 +160,7 @@ function Bavaria() {
                       <tr key={patient._id}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {patient.name}
+                            {patient.uuid}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -171,7 +188,12 @@ function Bavaria() {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          None
+                          <button
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            onClick={() => handleOpenModal(patient.visits)}
+                          >
+                            View Plot
+                          </button>
                         </td>
                       </tr>
                     ))}
@@ -295,6 +317,11 @@ function Bavaria() {
         </section>
       </main>
       <Footer />
+      <Modal
+        isOpen={modalOpen}
+        onRequestClose={handleCloseModal}
+        data={selectedData}
+      />
     </div>
   );
 }

@@ -8,7 +8,8 @@ import {
   getAllDrugs,
   labelDoses,
   assignDoses,
-  shareDoseAssignments
+  shareDoseAssignments,
+  setPatientReceive
 } from "../backend/fda";
 
 function FDA() {
@@ -127,7 +128,7 @@ function FDA() {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
                       >
-                        Name
+                        UUID
                       </th>
                       <th
                         scope="col"
@@ -151,6 +152,12 @@ function FDA() {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
                       >
+                        Placebo Reciever
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                      >
                         Tracking Number
                       </th>
                       <th
@@ -167,7 +174,7 @@ function FDA() {
                       <tr key={patient._id}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {patient.name}
+                            {patient.uuid}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -189,13 +196,39 @@ function FDA() {
                             )}{" "}
                           </div>
                         </td>
+
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                          {patient.placeboReciever === null ? "Unassigned" : (patient.placeboReciever ? "True" : "False")}
+                          </div>
+                        </td>
+
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
                             {patient.currentDoseFid}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          None
+                        {patient.placeboReciever === null ? (
+                            <Fragment>
+                              <button
+                                onClick={() => setPatientReceive(true, patient._id)}
+                                className="text-white bg-green-500 hover:bg-green-700 px-3 py-1 rounded mr-2"
+                              >
+                                Assign Placebo
+                              </button>
+                              <button
+                                onClick={() => setPatientReceive(false, patient._id)}
+                                className="text-white bg-green-500 hover:bg-green-700 px-3 py-1 rounded mr-2"
+                              >
+                                Assign Bavaria
+                              </button>
+                            </Fragment>
+                          ) : (
+                            <Fragment>
+                              {patient.placeboReciever ? "Placebo Already Assigned" : "Bavaria Already Assigned"}
+                            </Fragment>
+                          )}
                         </td>
                       </tr>
                     ))}

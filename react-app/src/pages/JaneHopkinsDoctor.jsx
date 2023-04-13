@@ -4,7 +4,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageIllustration from "../partials/PageIllustration";
 import SideBar from "../components/SideBar";
-import { getAllPatients, editPatient, getAllDrugs, givePatientDose } from "../backend/janeHopkins";
+import CreatePatientForm from '../components/CreatePatientForm';
+import { getAllPatients, editPatient, getAllDrugs, givePatientDose, addPatient } from "../backend/janeHopkins";
 
 //The Doctor Page
 function JaneHopkinsDoctor() {
@@ -68,6 +69,21 @@ function JaneHopkinsDoctor() {
     );
   }, [query, patients]);
 
+  const [showForm, setShowForm] = React.useState(false);
+
+  const openForm = () => {
+    setShowForm(true);
+  };
+
+  const closeForm = () => {
+    setShowForm(false);
+  };
+
+  const handleCreatePatient = (formData) => {
+    addPatient(formData);
+    closeForm();
+  };
+
   return (
     <div className="flex flex-col min-h-screen overflow-hidden bg-zinc-200">
       <Header />
@@ -113,8 +129,7 @@ function JaneHopkinsDoctor() {
                 </button>
 
                 <button
-                  //Redirect to CreatePatient page
-                  onClick={() => (window.location.href = "/CreatePatient")}
+                  onClick={openForm}
                   className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4"
                 >
                   Add Patient
@@ -131,7 +146,7 @@ function JaneHopkinsDoctor() {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
                       >
-                        Patient ID
+                        Patient UUID
                       </th>
                       <th
                         scope="col"
@@ -211,7 +226,7 @@ function JaneHopkinsDoctor() {
                             suppressContentEditableWarning
                             className="text-sm text-gray-900"
                           >
-                            {patient._id}
+                            {patient.uuid}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -486,6 +501,30 @@ function JaneHopkinsDoctor() {
         </section>
       </main>
       <Footer />
+      {showForm && (
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50"
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          }}
+        >
+          <div
+            className="bg-white w-1/2 h-2/3 p-6 rounded shadow-lg"
+            style={{
+              maxWidth: '90%',
+              maxHeight: '90%',
+            }}
+          >
+            <button
+              onClick={closeForm}
+              className="float-right text-gray-700 hover:text-gray-900"
+            >
+              &times;
+            </button>
+            <CreatePatientForm onSubmit={handleCreatePatient} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

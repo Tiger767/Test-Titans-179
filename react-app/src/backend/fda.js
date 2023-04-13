@@ -18,8 +18,8 @@ const getEligiblePatients = async() => {
 }
 
 
-const setPatientReceive = async(placebo, ndx) => {
-    const patient = await getPatient({ ndx });
+const setPatientReceive = async(placebo, _id) => {
+    //const patient = await getPatient({ _id });
     let acl = createACLs([
         //[["JaneHopkins"], ["READ"], ["placeboReciever"]], // to remove
         [["FDA", "Bavaria"], ["READ"], ["uuid", "visits", "currentTotalDoses"]],
@@ -27,7 +27,7 @@ const setPatientReceive = async(placebo, ndx) => {
         [["FDA"], ["ALL", "UPDATE_ACL"], ["placeboReciever"]]
     ]);
     const setPatientReceiveResponse = await entities.patient.update({
-        _id: patient._id,
+        _id,
         placeboReciever: placebo
     }, {
         aclInput: { acl }
@@ -163,9 +163,9 @@ const shareDoseAssignments = async() => {
 }
 
 
-const getPatient = async({uuid=null, id=null, ndx=null}) => {
-    if (id !== null) {
-      const patient = await entities.patient.get({ id });
+const getPatient = async({uuid=null, _id=null, ndx=null}) => {
+    if (_id !== null) {
+      const patient = await entities.patient.get({ _id });
       console.log("getPatient", patient);
       return patient;
     } else if (uuid !== null) {
