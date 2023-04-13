@@ -218,36 +218,49 @@ const givePatientDose = async (drug, patientUuid) => {
 // Update visits array of the patient by adding a new visit object
 // with the visit date and visit notes
 // check for duplicate visits
-const addPatientVisit = async ({dateTime, notes}) => {
-  const patient = await getPatient({ ndx });
-  if (!patient || !patient._id) {
-    console.error("Invalid patient");
-    return;
-  }
-  //check if visit already exists
-  if(patient.visits && patient.visits.find(visit => visit.dateTime === dateTime)) {
-    console.error("Visit of that time and date already exists");
-    return;
-  }
-  const visits = patient.visits || [];
-  visits.push({
-    dateTime: dateTime,
-    notes: notes,
-    prevDoseFid: patient.currentDoseFid
-  });
-  const addPatientVisitResponse = await entities.patient.update(
-    { _id: patient._id, visits: visits }
-  );
+const addPatientVisit = async (patient, dateTime, notes) => {
 
-  console.log("addPatientVisitResponse", addPatientVisitResponse);
-  return patient.items;
-};
+  
+  if (!patient.patient || !patient.patient._id) {
+    console.log("Invalid patient");
+    return;
+  }
+
+  const visits = patient.patient.visits;
+  const visit = visits.find(visit => visit.dateTime === dateTime);
+  if (visit) {
+    console.log("Duplicate visit");
+    return;
+  }
+
+  const newVisit = { dateTime:patient.dateTime, notes:patient.notes};
+  //push
+  visits.push(newVisit);
+
+  const updatePatientVisitsResponse = await entities.patient.update(
+{ _id: patient.patient._id, visits }
+  );
+  console.log("addPatientVisit", updatePatientVisitsResponse);
+
+  return patient.patient;
+
+
+ 
+}
+
+
+
+
+
+
+
+
 
 
 // Admin
 // Need to be able to update all ELIGIBLE patients (ACLs) so FDA and Bavaria at end of trial can get (READ) extra patient info
 // Notify FDA and Bavaria when study is over?
-const sharePatients = async (isAdmin = false) => {
+async function sharePatients(isAdmin = false) {
   const eligiblePatients = await getEligiblePatients();
   if (isAdmin) {
 
@@ -257,7 +270,7 @@ const sharePatients = async (isAdmin = false) => {
       [["Bavaria"], ["READ"], ["placeboReciever"]]
     ]);
 
-    eligiblePatients.forEach(async(patient) => {
+    eligiblePatients.forEach(async (patient) => {
       const sharePatientsResponse = await entities.patient.update(
         { _id: patient._id },
         {
@@ -266,7 +279,12 @@ const sharePatients = async (isAdmin = false) => {
       );
       console.log("sharePatientsResponse", sharePatientsResponse);
     });
+
+    return true;
   }
+
+
+
 }
    
 
