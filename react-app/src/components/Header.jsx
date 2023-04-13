@@ -1,12 +1,19 @@
 import { Link } from "react-router-dom";
 import Dropdown from "../utils/Dropdown";
 import React, { useState, useRef, useEffect } from "react";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase-config";
 
 function Header() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const trigger = useRef(null);
   const mobileNav = useRef(null);
+
+  const handleSignOut = async () => {
+    await signOut(auth);
+    window.location.href = "/";
+  };
 
   // close the mobile menu on click outside
   useEffect(() => {
@@ -79,12 +86,12 @@ function Header() {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/signin"
+                <button
                   className="btn-sm text-white bg-purple-600 hover:bg-purple-700 ml-3"
+                  onClick={handleSignOut}
                 >
                   Sign out
-                </Link>
+                </button>
               </li>
             </ul>
           </nav>
@@ -132,12 +139,12 @@ function Header() {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/signup"
+                  <button
                     className="font-medium w-full inline-flex items-center justify-center border border-transparent px-4 py-2 my-2 rounded-sm text-white bg-purple-600 hover:bg-purple-700 transition duration-150 ease-in-out"
+                    onClick={handleSignOut}
                   >
-                    Sign up
-                  </Link>
+                  Sign out
+                </button>
                 </li>
               </ul>
             </nav>

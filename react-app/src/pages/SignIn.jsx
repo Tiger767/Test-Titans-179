@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase-config";
 
 import Header from "../components/Header";
 import Footer from "../components/FooterAlt";
@@ -7,6 +9,23 @@ import PageIllustration from "../partials/PageIllustration";
 import Banner from "../partials/Banner";
 
 function SignIn() {
+  const [loginEmail, setLoginEmail] = React.useState("");
+  const [loginPassword, setLoginPassword] = React.useState("");
+
+  const handleLogin = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
+      console.log(user);
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
       {/*  Site header */}
@@ -57,7 +76,6 @@ function SignIn() {
                     aria-hidden="true"
                   ></div>
                 </div>
-                <form>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label
@@ -71,6 +89,7 @@ function SignIn() {
                         type="email"
                         className="form-input w-full text-gray-300"
                         placeholder="you@yourcompany.com"
+                        onChange={(event) => {setLoginEmail(event.target.value)}}
                         required
                       />
                     </div>
@@ -88,6 +107,7 @@ function SignIn() {
                         type="password"
                         className="form-input w-full text-gray-300"
                         placeholder="Password (at least 10 characters)"
+                        onChange={(event) => {setLoginPassword(event.target.value)}}
                         required
                       />
                     </div>
@@ -112,21 +132,11 @@ function SignIn() {
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button className="btn text-white bg-purple-600 hover:bg-purple-700 w-full">
+                      <button className="btn text-white bg-purple-600 hover:bg-purple-700 w-full" onClick={handleLogin}>
                         Sign in
                       </button>
                     </div>
                   </div>
-                </form>
-                <div className="text-gray-400 text-center mt-6">
-                  Don’t you have an account?{" "}
-                  <Link
-                    to="/signup"
-                    className="text-purple-600 hover:text-gray-200 transition duration-150 ease-in-out"
-                  >
-                    Sign up
-                  </Link>
-                </div>
               </div>
             </div>
           </div>
