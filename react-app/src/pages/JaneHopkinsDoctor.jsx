@@ -324,18 +324,14 @@ function JaneHopkinsDoctor() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div
                             value={patient.eligibility}
-                            className="text-sm text-gray-900"
+                            className={
+                              patient.eligibility
+                                ? "text-sm text-green-900"
+                                : "text-sm text-red-900"
+                            }
                           >
                             {" "}
-                            {patient.eligibility ? "-----" : "-----"}
-                            {/*                       //label based on if its true or false and make the label red if false and green if true
-                       // disabled={editingPatient === patient._id}
-                        //label = {patient.eligibility ? "Eligible" : "Not Eligible"}
-                       // sytle={{color: patient.eligibility ? "text-sm text-green-900": "text-sm text-red-900"}}
-                      //  value={patient.eligibility}
-                     //   onChange={(e) => handlePatientEdit(index, "eligibility", e.target.checked)} 
-                />*/}
-                            {patient.eligibility}
+                            {patient.eligibility ? "Eligible" : "Not Eligible"}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -355,7 +351,7 @@ function JaneHopkinsDoctor() {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div
+                          {/*<div
                             contentEditable={editingPatient === patient._id}
                             onBlur={(e) =>
                               handlePatientEdit(
@@ -366,8 +362,9 @@ function JaneHopkinsDoctor() {
                             }
                             suppressContentEditableWarning
                             className="text-sm text-gray-900"
-                          >
-                            {patient.icdHealthCodes.map((code) => code.code)}
+                          >*/}
+                          <div className="text-sm text-gray-900">
+                            {patient.icdHealthCodes.map(code => code.code).join(', ')}
                           </div>
                         </td>
 

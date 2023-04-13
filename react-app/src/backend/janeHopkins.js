@@ -55,7 +55,7 @@ const editPatient = async (updatedPatient) => {
 
 
  
-    // Doctor
+// Doctor
 // Need to be able to add a patient and check elgiibility and assign uuid
 const addPatient = async({name="Unknown", patientPicture="None", dob="1970-01-01", insuranceNumber="None",
                           height="Unknown Inches", weight="Unknown Inches", bloodPressure="Unknown mmHg",
@@ -64,7 +64,7 @@ const addPatient = async({name="Unknown", patientPicture="None", dob="1970-01-01
                           currentlyInsured="Unknown", icdHealthCodes=[], allergies=[]}) => {
     // Exclude ICD-10 Pregnancy codes - O00–O99
     // Exclude DOB greater than 1/1/2005
-    const hasPregnancyCode = icdHealthCodes.some(code => code.startsWith('O'));
+    const hasPregnancyCode = icdHealthCodes.some(code => code.code.startsWith('O'));
     const isBefore2005 = new Date(dob) < new Date('2005-01-01');
     const eligibility = !hasPregnancyCode && isBefore2005;
     const currentTotalDoses = 0;
@@ -321,15 +321,14 @@ const getPatient = async({uuid=null, id=null, ndx=null, eligibility_ndx=null}) =
 }
 
 // Get all patients
-// The Admin should be the only one able see eligiblity, but not the doctor (we will soft block this?)
 const getAllPatients = async(isAdmin = false) => {
   const allPatients = await entities.patient.list();    
-  if (!isAdmin) {            
+  /*if (!isAdmin) {            
     allPatients.items = allPatients.items.map(patient => {            
         patient.eligibility = null;           
         return patient;         
       })       
-    }
+    }*/
   console.log("getAllPatients", allPatients);
   return allPatients.items;
 }
@@ -365,4 +364,189 @@ const removeAllPatients = async() => {
 }
 
 
-export { addPatient, getAllDrugs, getAllPatients, getEligiblePatients, sharePatients, addPatientVisit, editPatient, addPatientDrug, getPatient, removeAllPatients, givePatientDose };
+function randomDate(start, end) {
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function generateRandomPatients(numPatients) {
+  const firstNames = ['John', 'Jane', 'Michael', 'Emily', 'David', 'Sarah', 'James', 'Jessica', 'Robert', 'Ashley'];
+  const lastNames = ['Smith', 'Johnson', 'Williams', 'Jones', 'Brown', 'Davis', 'Miller', 'Wilson', 'Moore', 'Taylor'];
+
+  const patients = [];
+
+  for (let i = 0; i < numPatients; i++) {
+    const name = firstNames[Math.floor(Math.random() * firstNames.length)] + ' ' + lastNames[Math.floor(Math.random() * lastNames.length)];
+    const dob = randomDate(new Date(1950, 0, 1), new Date(2007, 0, 1)).toISOString().split('T')[0];
+    
+    const familyHistory = Math.random() < 0.5 ? 'Heart Disease, Diabetes' : 'None';
+    const currentlyEmployed = Math.random() < 0.5 ? 'Yes' : 'No';
+    const currentlyInsured = Math.random() < 0.5 ? 'Yes' : 'No';
+    const insuranceNumber =  currentlyInsured === 'Yes' ? 'INS' + randomInt(100000, 999999) : null;
+
+    const height = randomInt(60, 78) + ' Inches';
+    const weight = randomInt(100, 250) + ' Pounds';
+    const bloodPressure = randomInt(100, 140) + '/' + randomInt(60, 90) + ' mmHg';
+    const temperature = (randomInt(965, 995) / 10).toFixed(1) + ' Fahrenheit';
+    const oxygenSaturation = randomInt(90, 100) + ' %';
+
+    const medications = ['Lisinopril', 'Metformin', 'Aspirin', 'Atorvastatin'];
+    const currentMedications = medications
+      .filter(() => Math.random() < 0.5)
+      .map(medication => ({ medication }));
+
+    const healthCodes = ['I10', 'E11', 'J45', 'K21', 'O99'];
+    const icdHealthCodes = healthCodes
+      .filter(() => Math.random() < 0.3)
+      .map(code => ({ code }));
+
+    const allergyList = ['Penicillin', 'Peanuts', 'Shellfish', 'Dust mites'];
+    const allergies = allergyList
+      .filter(() => Math.random() < 0.5)
+      .map(allergy => ({ allergy }));
+
+    patients.push({
+      name,
+      patientPicture: 'https://example.com/patient' + (i + 1) + '.jpg',
+      dob,
+      insuranceNumber,
+      height,
+      weight,
+      bloodPressure,
+      temperature,
+      oxygenSaturation,
+      address: "" + (i + 1) + "53 Oak St, Los Angeles, CA 9000",
+      currentMedications,
+      familyHistory,
+      currentlyEmployed,
+      currentlyInsured,
+      icdHealthCodes,
+      allergies,
+    });
+  }
+
+  return patients;
+}
+
+
+const addTestsPatients = async() => {
+  const patients = [
+    {
+      name: "John Doe",
+      patientPicture: "https://example.com/patient1.jpg",
+      dob: "1985-06-15",
+      insuranceNumber: "INS123456",
+      height: "70 Inches",
+      weight: "180 Pounds",
+      bloodPressure: "120/80 mmHg",
+      temperature: "98.6 Fahrenheit",
+      oxygenSaturation: "98 %",
+      address: "123 Main St, New York, NY 10001",
+      currentMedications: [
+        {
+          medication: "Lisinopril"
+        },
+        {
+          medication: "Metformin"
+        }
+      ],
+      familyHistory: "Heart Disease, Diabetes",
+      currentlyEmployed: "Yes",
+      currentlyInsured: "Yes",
+      icdHealthCodes: [
+        {
+          code: "I10"
+        },
+        {
+          code: "E11"
+        }
+      ],
+      allergies: [
+        {
+          allergy: "Penicillin"
+        }
+      ],
+    },
+    {
+      name: "Jane Smith",
+      patientPicture: "https://example.com/patient2.jpg",
+      dob: "1990-03-25",
+      insuranceNumber: "INS654321",
+      height: "65 Inches",
+      weight: "140 Pounds",
+      bloodPressure: "115/75 mmHg",
+      temperature: "98.4 Fahrenheit",
+      oxygenSaturation: "97 %",
+      uuid: "f0a7e183-2446-11ec-9621-0242ac130002",
+      address: "456 Oak St, Los Angeles, CA 90001",
+      currentMedications: [
+        {
+          medication: "Atorvastatin"
+        },
+        {
+          medication: "Levothyroxine"
+        }
+      ],
+      familyHistory: "Hypothyroidism, High Cholesterol",
+      currentlyEmployed: "No",
+      currentlyInsured: "Yes",
+      icdHealthCodes: [
+        {
+          code: "E03"
+        },
+        {
+          code: "E78"
+        }
+      ],
+      allergies: [
+        {
+          allergy: "Shellfish"
+        }
+      ],
+    },
+    {
+      name: "Alice Johnson",
+      patientPicture: "https://example.com/patient3.jpg",
+      dob: "1980-10-08",
+      insuranceNumber: "INS987654",
+      height: "63 Inches",
+      weight: "135 Pounds",
+      bloodPressure: "110/70 mmHg",
+      temperature: "98.0 Fahrenheit",
+      oxygenSaturation: "99 %",
+      uuid: "f0a7e184-2446-11ec-9621-0242ac130002",
+      address: "789 Pine St, Chicago, IL 60601",
+      currentMedications: [
+        {
+          medication: "Amlodipine"
+        }
+      ],
+      familyHistory: "Hypertension, Arthritis",
+      currentlyEmployed: "Yes",
+      currentlyInsured: "No",
+      icdHealthCodes: [
+        {
+          code: "O05"
+        }
+      ],
+      allergies: [
+        {
+          allergy: "Peanuts"
+        }
+      ],
+    }
+  ];
+  const all_patients = patients.concat(generateRandomPatients(20));
+  
+
+  for (let i = 0; i < all_patients.length; i++) {
+    const patient = all_patients[i];
+    addPatient(patient);
+  }
+}
+
+
+export { addPatient, getAllDrugs, getAllPatients, getEligiblePatients, sharePatients, addPatientVisit, editPatient, addPatientDrug, getPatient, removeAllPatients, givePatientDose, addTestsPatients };

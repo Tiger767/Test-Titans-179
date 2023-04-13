@@ -6,7 +6,7 @@ import Banner from '../partials/Banner';
 import Footer from '../partials/Footer';
 
 
-import { addPatient, getAllDrugs as getAllDrugsJ, getAllPatients as getAllPatientsJ, getEligiblePatients as getEligiblePatientsJ, sharePatients, addPatientVisit, editPatient, addPatientDrug, removeAllPatients } from '../backend/janeHopkins';
+import { addPatient, getAllDrugs as getAllDrugsJ, getAllPatients as getAllPatientsJ, getEligiblePatients as getEligiblePatientsJ, sharePatients, addPatientVisit, editPatient, addPatientDrug, removeAllPatients, addTestsPatients } from '../backend/janeHopkins';
 import { getParticipants, addBatchDrug, getAllDrugs as getAllDrugsB, removeAllDrugs } from '../backend/bavaria';
 import { getEligiblePatients, setPatientReceive, assignDoses, labelDoses, getAllDrugs as getAllDrugsF, shareDoseAssignments } from '../backend/fda';
 
@@ -107,6 +107,9 @@ function Home() {
                 </li>
                 <li>
                   <button onClick={() => {removeAllDrugs();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">Bavaria: Remove All Drugs</button>
+                </li>
+                <li>
+                  <button onClick={() => {addTestsPatients();}} className="btn-sm text-white bg-purple-600 hover:bg-purple-700 m-3">JH: Add Test Patients</button>
                 </li>
               </ul>
             </div>
