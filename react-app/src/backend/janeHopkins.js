@@ -385,7 +385,7 @@ function generateRandomPatients(numPatients) {
     const familyHistory = Math.random() < 0.5 ? 'Heart Disease, Diabetes' : 'None';
     const currentlyEmployed = Math.random() < 0.5 ? 'Yes' : 'No';
     const currentlyInsured = Math.random() < 0.5 ? 'Yes' : 'No';
-    const insuranceNumber =  currentlyInsured === 'Yes' ? 'INS' + randomInt(100000, 999999) : null;
+    const insuranceNumber =  currentlyInsured === 'Yes' ? 'INS' + randomInt(100000, 999999) : "";
 
     const height = randomInt(60, 78) + ' Inches';
     const weight = randomInt(100, 250) + ' Pounds';
