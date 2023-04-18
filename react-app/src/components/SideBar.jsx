@@ -29,90 +29,91 @@ function sidebar(props) {
         </svg>
       </button>
 
-      <aside
-        id="default-sidebar"
-        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
-        aria-label="Sidebar"
-      >
-        <div class="h-full px-6 py-6 overflow-y-auto bg-gray-800 border-4 border-r-gray-400 dark:bg-gray-800">
-          <ul class="space-y-8 font-medium text-xl mt-14">
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
-              >
-                <span class="icon pt-1">
-                  <ion-icon size="large" name={props.firstIcon}></ion-icon>
-                </span>
-                <span class="ml-3 pr-3">{props.firstItem}</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
-              >
-                <span class="icon pt-1">
-                  <ion-icon size="large" name={props.secondIcon}></ion-icon>
-                </span>
-                <span class="flex-1 ml-3 whitespace-nowrap">
-                  {props.secondItem}
-                </span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
-              >
-                <span class="icon pt-1">
-                  <ion-icon size="large" name={props.thirdIcon}></ion-icon>
-                </span>
-                <span class="flex-1 ml-3 pr-3 whitespace-nowrap">
-                  {props.thirdItem}
-                </span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
-              >
-                <span class="icon pt-1">
-                  <ion-icon size="large" name={props.fourthIcon}></ion-icon>
-                </span>
-                <span class="flex-1 ml-3 whitespace-nowrap">
-                  {props.fourthItem}
-                </span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700 mt-100"
-              >
-                <span class="icon pt-1">
-                  <ion-icon size="large" name={props.fifthIcon}></ion-icon>
-                </span>
-                <span class="flex-1 ml-3 whitespace-nowrap">
-                  {props.fifthItem}
-                </span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700 mt-100"
-              >
-                <span class="icon pt-1">
-                  <ion-icon size="large" name={props.sixthIcon}></ion-icon>
-                </span>
-                <span class="flex-1 ml-3 whitespace-nowrap">
-                  {props.sixthItem}
-                </span>
-              </a>
-            </li>
-            {/* <li>
+      <div className="main flex flex-row">
+        <aside
+          id="default-sidebar"
+          class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+          aria-label="Sidebar"
+        >
+          <div class="h-full px-6 py-6 overflow-y-auto bg-gray-800 border-4 border-r-gray-400 dark:bg-gray-800">
+            <ul class="space-y-8 font-medium text-xl mt-14">
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
+                >
+                  <span class="icon pt-1">
+                    <ion-icon size="large" name={props.firstIcon}></ion-icon>
+                  </span>
+                  <span class="ml-3 pr-3">{props.firstItem}</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
+                >
+                  <span class="icon pt-1">
+                    <ion-icon size="large" name={props.secondIcon}></ion-icon>
+                  </span>
+                  <span class="flex-1 ml-3 whitespace-nowrap">
+                    {props.secondItem}
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
+                >
+                  <span class="icon pt-1">
+                    <ion-icon size="large" name={props.thirdIcon}></ion-icon>
+                  </span>
+                  <span class="flex-1 ml-3 pr-3 whitespace-nowrap">
+                    {props.thirdItem}
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
+                >
+                  <span class="icon pt-1">
+                    <ion-icon size="large" name={props.fourthIcon}></ion-icon>
+                  </span>
+                  <span class="flex-1 ml-3 whitespace-nowrap">
+                    {props.fourthItem}
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700 mt-100"
+                >
+                  <span class="icon pt-1">
+                    <ion-icon size="large" name={props.fifthIcon}></ion-icon>
+                  </span>
+                  <span class="flex-1 ml-3 whitespace-nowrap">
+                    {props.fifthItem}
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700 mt-100"
+                >
+                  <span class="icon pt-1">
+                    <ion-icon size="large" name={props.sixthIcon}></ion-icon>
+                  </span>
+                  <span class="flex-1 ml-3 whitespace-nowrap">
+                    {props.sixthItem}
+                  </span>
+                </a>
+              </li>
+              {/* <li>
               <a
                 href="#"
                 class="flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700"
@@ -125,7 +126,7 @@ function sidebar(props) {
                 </span>
               </a>
             </li> */}
-            {/* <li>
+              {/* <li>
               <a
                 href="#"
                 class="flex items-center p-2 text-gray-600 rounded-lg dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700"
@@ -138,9 +139,10 @@ function sidebar(props) {
                 </span>
               </a>
             </li> */}
-          </ul>
-        </div>
-      </aside>
+            </ul>
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }

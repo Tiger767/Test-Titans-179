@@ -3,6 +3,7 @@ import Dropdown from "../utils/Dropdown";
 import React, { useState, useRef, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
+import "../css/additional-styles/SideMenu.css";
 
 function Header() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -44,7 +45,7 @@ function Header() {
   return (
     <header className="absolute w-full z-30 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-20 ml-60">
           {/* Site branding */}
           <div className="shrink-0 mr-4">
             {/* Logo */}
@@ -68,7 +69,7 @@ function Header() {
           {/* Desktop navigation */}
           <nav className="hidden md:flex md:grow">
             {/* Desktop sign in links */}
-            <ul className="flex grow justify-end flex-wrap items-center">
+            <ul className="flex grow justify-end flex-wrap items-center ">
               <li>
                 <Link
                   to="/"
@@ -143,8 +144,8 @@ function Header() {
                     className="font-medium w-full inline-flex items-center justify-center border border-transparent px-4 py-2 my-2 rounded-sm text-white bg-purple-600 hover:bg-purple-700 transition duration-150 ease-in-out"
                     onClick={handleSignOut}
                   >
-                  Sign out
-                </button>
+                    Sign out
+                  </button>
                 </li>
               </ul>
             </nav>

@@ -55,3 +55,7 @@
 .menu a:hover {
   background-color: #666;
 }
+
+.sidebar-m{
+  margin: 0 max(33%, 20px) 0 0;
+}

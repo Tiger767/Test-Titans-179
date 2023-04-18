@@ -4,11 +4,7 @@ import Footer from "../components/Footer";
 import PageIllustration from "../partials/PageIllustration";
 import SideBar from "../components/SideBar";
 import Modal from "../components/Modal";
-import {
-  getParticipants,
-  getAllDrugs,
-  addBatchDrug,
-} from "../backend/bavaria";
+import { getParticipants, getAllDrugs, addBatchDrug } from "../backend/bavaria";
 
 function Bavaria() {
   const [patients, setPatients] = React.useState([]);
@@ -47,28 +43,27 @@ function Bavaria() {
   const [isPlacebo, setIsPlacebo] = React.useState(false);
   const handleAddDoses = () => {
     addBatchDrug(numDoses, isPlacebo);
-  }
+  };
 
   const [modalOpen, setModalOpen] = React.useState(false);
   const [selectedData, setSelectedData] = React.useState([]);
-  
+
   const handleOpenModal = (visits) => {
-    if (visits === null)
-      setSelectedData([0, 1, 2, 3, 4, 5]);
+    if (visits === null) setSelectedData([0, 1, 2, 3, 4, 5]);
     else {
       setSelectedData(visits.map((visit) => visit.hivViralLoad));
     }
     setModalOpen(true);
   };
-  
+
   const handleCloseModal = () => {
     setModalOpen(false);
-  };  
+  };
 
   return (
     <div className="flex flex-col min-h-screen overflow-hidden bg-zinc-200">
       <Header />
-      <main className="grow">
+      <main className="grow ml-80">
         <div
           className="relative max-w-6xl mx-auto h-0 pointer-events-none"
           aria-hidden="true"
@@ -96,11 +91,12 @@ function Bavaria() {
                   placeholder="Search Patients"
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
+                  className={`p-6`}
                   style={{ width: "90%", height: "100%", indent: "50px" }}
                 />
 
                 <button
-                  className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full"
+                  className="bg-purple-500 hover:bg-purple-700 text-2xl text-white font-bold py-2 px-4 rounded-full"
                   onClick={() => window.location.reload()}
                   style={{ width: "10%", height: "100%", indent: "50px" }}
                 >
@@ -118,37 +114,37 @@ function Bavaria() {
                     <tr>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider"
                       >
                         UUID
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider"
                       >
                         Date of Birth
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider"
                       >
                         Doses
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider"
                       >
                         HIV Viral Load
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider"
                       >
                         Tracking Number
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider"
                       >
                         Actions
                       </th>
@@ -177,9 +173,10 @@ function Bavaria() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
                             {" "}
-                            {patient.visits && patient.visits.map(
-                              (hivViralLoad) => hivViralLoad.hivViralLoad
-                            )}{" "}
+                            {patient.visits &&
+                              patient.visits.map(
+                                (hivViralLoad) => hivViralLoad.hivViralLoad
+                              )}{" "}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -206,20 +203,32 @@ function Bavaria() {
                 >
                   <label className="text-white">
                     Number of Doses:
-                    <input className="bg-purple-500 rounded-full" type="number" value={numDoses} onChange={(e) => setNumDoses(parseInt(e.target.value, 10))} />
+                    <input
+                      className="bg-purple-500 rounded-full"
+                      type="number"
+                      value={numDoses}
+                      onChange={(e) =>
+                        setNumDoses(parseInt(e.target.value, 10))
+                      }
+                    />
                   </label>
 
                   <label className="text-white">
-                    <input className="bg-purple-500 hover:bg-purple-700 py-2 px-2" type="checkbox" checked={isPlacebo} onChange={(e) => setIsPlacebo(e.target.checked)} />
+                    <input
+                      className="bg-purple-500 hover:bg-purple-700 py-2 px-2"
+                      type="checkbox"
+                      checked={isPlacebo}
+                      onChange={(e) => setIsPlacebo(e.target.checked)}
+                    />
                     Placebo
                   </label>
 
                   <button
-                    className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full"
+                    className="bg-purple-700 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded-full"
                     type="button"
                     onClick={handleAddDoses}
                   >
-                    Add {numDoses} {isPlacebo ? 'Placebo' : 'Bavaria'} Doses
+                    Add {numDoses} {isPlacebo ? "Placebo" : "Bavaria"} Doses
                   </button>
 
                   <button
@@ -230,40 +239,43 @@ function Bavaria() {
                   </button>
                 </div>
 
-                <table className="mw-100 divide-y divide-gray-200" style={{ width: "100%" }}>
+                <table
+                  className="mw-100 divide-y divide-gray-200"
+                  style={{ width: "100%" }}
+                >
                   <thead className="bg-purple-500">
                     <tr>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider"
                       >
                         FDA ID (Tracking Number)
                       </th>
 
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider"
                       >
                         Bavaria ID (Tracking Number)
                       </th>
 
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider"
                       >
                         Patient UUID
                       </th>
 
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider"
                       >
                         Placebo
                       </th>
-                      
+
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-white-500 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider"
                       >
                         Used
                       </th>
@@ -274,13 +286,19 @@ function Bavaria() {
                     {drugs.map((drug) => (
                       <tr key={drug.fid}>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{drug.fid}</div>
+                          <div className="text-sm text-gray-900">
+                            {drug.fid}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{drug.bid}</div>
+                          <div className="text-sm text-gray-900">
+                            {drug.bid}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{drug.patientUuid}</div>
+                          <div className="text-sm text-gray-900">
+                            {drug.patientUuid}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
