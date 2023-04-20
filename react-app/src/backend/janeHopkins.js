@@ -179,6 +179,7 @@ const addPatientDrug = async (patient) => {
     { _id: patient._id, currentTotalDoses, currentDoseFid }
   );
   console.log("addPatientDrug", updatePatientDosesResponse);
+  return dose;
 }
 
 
@@ -360,6 +361,7 @@ const removeAllPatients = async() => {
   patients.items.forEach(async(patient) => {
     const removeAllPatientsResponse = await entities.patient.remove(patient._id);
     console.log("removeAllPatientsResponse", removeAllPatientsResponse);
+   
   });
 }
 

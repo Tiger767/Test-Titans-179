@@ -85,34 +85,65 @@ import {
       const patientVisits = await addPatientVisit({ patient:patient ,dateTime: "2012-04-21T18:25:43-05:00", notes: "good"});
       console.log("patient visits: " + JSON.stringify(patientVisits));
 
-      },16000);
+      },10000);
     
       test("editPatient", async () => {
         // Test case for editPatient function
         // ...
+        const PatientUuid = await addPatient({ name: "Tom"});
+        expect(PatientUuid).toBeTruthy(); // Check if a UUID was returned
+        const patient = await getPatient({ uuid: PatientUuid});
+        const patientEdit = await editPatient(patient);
+        console.log("patient edit: " + JSON.stringify(patientEdit));
+       
 
-      });
+
+      },10000);
     
       test("addPatientDrug", async () => {
         // Test case for addPatientDrug function
         // ...
-      });
+        const PatientUuid = await addPatient({ name: "Tom"});
+        expect(PatientUuid).toBeTruthy(); // Check if a UUID was returned
+        const patient = await getPatient({ uuid: PatientUuid});
+        const patientDrug = await addPatientDrug({patient: patient});
+      }, 10000);
     
       test("getPatient", async () => {
         // Test case for getPatient function
         // ...
-      });
+        const PatientUuid = await addPatient({ name: "Tom"});
+        expect(PatientUuid).toBeTruthy(); // Check if a UUID was returned
+        const patient = await getPatient({ uuid: PatientUuid});
+        console.log("patient: " + patient)
+        expect(patient).toBeTruthy();
+      }, 10000);
     
       test("removeAllPatients", async () => {
-        // Test case for removeAllPatients function
-        // ...
-      });
+       // Test case for removeAllPatients function
+        // ...  
+       
+        const removeAllPatients1= await removeAllPatients();
+        expect(removeAllPatients1).toBe(undefined);
+        
+      
+
+      }, 10000);
     
       test("givePatientDose", async () => {
         // Test case for givePatientDose function
         // ...
- 
+        
+        const PatientUuid = await addPatient({ name: "Tom"});
+        expect(PatientUuid).toBeTruthy(); // Check if a UUID was returned
+        const patient = await getPatient({ uuid: PatientUuid});
+        const patientDose = await givePatientDose({patient: patient});
+        console.log("patient dose: " + JSON.stringify(patientDose));
+
+  
+      
+       
      
 
-      });
+      }, 10000);
     });
