@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageIllustration from "../partials/PageIllustration";
@@ -60,6 +60,59 @@ function Bavaria() {
     setModalOpen(false);
   };
 
+  const convertToJsonString = (obj) => {
+    return JSON.stringify(obj);
+  };
+
+  const preprocessData = (data) => {
+    return data.map((item) => {
+      const preprocessedItem = { ...item };
+
+      for (const key in preprocessedItem) {
+        if (Array.isArray(preprocessedItem[key])) {
+          preprocessedItem[key] = convertToJsonString(preprocessedItem[key]);//preprocessedItem[key].map(convertToJsonString).join(', ');
+        }
+      }
+
+      return preprocessedItem;
+    });
+  };
+
+  const dictToCSV = (dictArray, delimiter = ',') => {
+    if (!Array.isArray(dictArray) || dictArray.length === 0) {
+      return '';
+    }
+  
+    const headers = Object.keys(dictArray[0]).join(delimiter);
+    const rows = dictArray
+      .map((item) => {
+        return Object.values(item)
+          .map((value) => {
+            if (typeof value === 'string') {
+              return `"${value.replace(/"/g, '""')}"`;
+            }
+            return value;
+          })
+          .join(delimiter);
+      })
+      .join('\n');
+  
+    return `${headers}\n${rows}`;
+  };
+
+  const downloadCSV = () => {
+    const preprocessedData = preprocessData(patients);
+    //const json2csvParser = new Parser();
+    //const csv = json2csvParser.parse(preprocessedData);
+    const csvBlob = new Blob([dictToCSV(preprocessedData)], { type: 'text/csv;charset=utf-8;' });
+    const csvUrl = URL.createObjectURL(csvBlob);
+
+    const link = document.createElement('a');
+    link.href = csvUrl;
+    link.setAttribute('download', 'export.csv');
+    link.click();
+  };
+
   return (
     <div className="flex flex-col min-h-screen overflow-hidden bg-zinc-200">
       <Header />
@@ -92,8 +145,16 @@ function Bavaria() {
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                   className={`p-6`}
-                  style={{ width: "90%", height: "100%", indent: "50px" }}
+                  style={{ width: "70%", height: "100%", indent: "50px" }}
                 />
+
+                <button
+                  className="bg-purple-500 hover:bg-purple-700 text-1xl text-white font-bold py-2 px-4 rounded-full"
+                  onClick={() => downloadCSV()}
+                  style={{ width: "20%", height: "100%", indent: "50px" }}
+                >
+                  Download Report
+                </button>
 
                 <button
                   className="bg-purple-500 hover:bg-purple-700 text-2xl text-white font-bold py-2 px-4 rounded-full"
