@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase-config";
@@ -8,22 +9,26 @@ import Footer from "../components/FooterAlt";
 import PageIllustration from "../partials/PageIllustration";
 import Banner from "../partials/Banner";
 
-function SignIn() {
+function SignIn({ history }) {
   const [loginEmail, setLoginEmail] = React.useState("");
   const [loginPassword, setLoginPassword] = React.useState("");
+  const [selectedOption, setSelectedOption] = useState("");
 
   const handleLogin = async () => {
-    try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        loginEmail,
-        loginPassword
-      );
-      console.log(user);
-      window.location.href = "/";
-    } catch (error) {
-      console.log(error.message);
-    }
+    signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+      .then((userCredential) => {
+        console.log(userCredential);
+        if (selectedOption === "Jane Hopkins") {
+          history.push("/jane-hopkins-dashboard");
+        } else if (selectedOption === "Bavaria") {
+          history.push("/bavaria-dashboard");
+        } else if (selectedOption === "FDA") {
+          history.push("/fda-dashboard");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -58,6 +63,9 @@ function SignIn() {
                       className="p-20 py-3 w-max bg-zinc-300 text-lg font-medium rounded-md shadow"
                       name="dashboard-options"
                       id="dashboard-names"
+                      onChange={(event) =>
+                        setSelectedOption(event.target.value)
+                      }
                     >
                       <option value="Jane Hopkins">Jane Hopkins</option>
                       <option value="Bavaria">Bavaria</option>
@@ -76,67 +84,74 @@ function SignIn() {
                     aria-hidden="true"
                   ></div>
                 </div>
-                  <div className="flex flex-wrap -mx-3 mb-4">
-                    <div className="w-full px-3">
-                      <label
-                        className="block text-gray-300 text-sm font-medium mb-1"
-                        htmlFor="email"
-                      >
-                        Email
+                <div className="flex flex-wrap -mx-3 mb-4">
+                  <div className="w-full px-3">
+                    <label
+                      className="block text-gray-300 text-sm font-medium mb-1"
+                      htmlFor="email"
+                    >
+                      Email
+                    </label>
+                    <input
+                      id="email"
+                      type="email"
+                      className="form-input w-full text-gray-300"
+                      placeholder="you@yourcompany.com"
+                      onChange={(event) => {
+                        setLoginEmail(event.target.value);
+                      }}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-4">
+                  <div className="w-full px-3">
+                    <label
+                      className="block text-gray-300 text-sm font-medium mb-1"
+                      htmlFor="password"
+                    >
+                      Password
+                    </label>
+                    <input
+                      id="password"
+                      type="password"
+                      className="form-input w-full text-gray-300"
+                      placeholder="Password (at least 10 characters)"
+                      onChange={(event) => {
+                        setLoginPassword(event.target.value);
+                      }}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-4">
+                  <div className="w-full px-3">
+                    <div className="flex justify-between">
+                      <label className="flex items-center">
+                        <input type="checkbox" className="form-checkbox" />
+                        <span className="text-gray-400 ml-2">
+                          Keep me signed in
+                        </span>
                       </label>
-                      <input
-                        id="email"
-                        type="email"
-                        className="form-input w-full text-gray-300"
-                        placeholder="you@yourcompany.com"
-                        onChange={(event) => {setLoginEmail(event.target.value)}}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap -mx-3 mb-4">
-                    <div className="w-full px-3">
-                      <label
-                        className="block text-gray-300 text-sm font-medium mb-1"
-                        htmlFor="password"
+                      <Link
+                        to="/reset-password"
+                        className="text-purple-600 hover:text-gray-200 transition duration-150 ease-in-out"
                       >
-                        Password
-                      </label>
-                      <input
-                        id="password"
-                        type="password"
-                        className="form-input w-full text-gray-300"
-                        placeholder="Password (at least 10 characters)"
-                        onChange={(event) => {setLoginPassword(event.target.value)}}
-                        required
-                      />
+                        Forgot Password?
+                      </Link>
                     </div>
                   </div>
-                  <div className="flex flex-wrap -mx-3 mb-4">
-                    <div className="w-full px-3">
-                      <div className="flex justify-between">
-                        <label className="flex items-center">
-                          <input type="checkbox" className="form-checkbox" />
-                          <span className="text-gray-400 ml-2">
-                            Keep me signed in
-                          </span>
-                        </label>
-                        <Link
-                          to="/reset-password"
-                          className="text-purple-600 hover:text-gray-200 transition duration-150 ease-in-out"
-                        >
-                          Forgot Password?
-                        </Link>
-                      </div>
-                    </div>
+                </div>
+                <div className="flex flex-wrap -mx-3 mt-6">
+                  <div className="w-full px-3">
+                    <button
+                      className="btn text-white bg-purple-600 hover:bg-purple-700 w-full"
+                      onClick={handleLogin}
+                    >
+                      Sign in
+                    </button>
                   </div>
-                  <div className="flex flex-wrap -mx-3 mt-6">
-                    <div className="w-full px-3">
-                      <button className="btn text-white bg-purple-600 hover:bg-purple-700 w-full" onClick={handleLogin}>
-                        Sign in
-                      </button>
-                    </div>
-                  </div>
+                </div>
               </div>
             </div>
           </div>

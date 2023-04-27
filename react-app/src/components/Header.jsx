@@ -12,7 +12,11 @@ function Header() {
   const mobileNav = useRef(null);
 
   const handleSignOut = async () => {
-    await signOut(auth);
+    await signOut(auth)
+      .then(() => {
+        console.log("sign out successful");
+      })
+      .catch((error) => console.log(error));
     window.location.href = "/";
   };
 
