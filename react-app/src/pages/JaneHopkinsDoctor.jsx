@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import PageIllustration from "../partials/PageIllustration";
 import SideBar from "../components/SideBar";
 import CreatePatientForm from "../components/CreatePatientForm";
+import AddVisitForm from "../components/AddVisitForm";
 
 import {
   getAllPatients,
@@ -12,6 +13,7 @@ import {
   getAllDrugs,
   givePatientDose,
   addPatient,
+  addPatientVisit,
 } from "../backend/janeHopkins";
 
 //The Doctor Page
@@ -77,19 +79,49 @@ function JaneHopkinsDoctor() {
   }, [query, patients]);
 
   const [showForm, setShowForm] = React.useState(false);
-
+  const [showVisitForm, setShowVisitForm] = React.useState(false);
   const openForm = () => {
     setShowForm(true);
-  };
 
+  };
   const closeForm = () => {
     setShowForm(false);
   };
+  const openVisitForm = (updatedPatient) => {
+    setShowVisitForm(true);
+    
+    setEditingPatient(updatedPatient);
+    return updatedPatient;
+  }
+  const closeVisitForm = () => {
+    setShowVisitForm(false);
+    setEditingPatient(null);
 
+  }
+
+  
+  
+  
+  const handleAddVisit = async (formData, updatedPatient) => {
+
+  
+    if (!updatedPatient) {
+      console.error("No patient selected");
+      return;
+    }
+  
+    await addPatientVisit(updatedPatient, formData.dateTime, formData.notes, formData.hivViralLoad);
+    closeVisitForm();
+    
+
+   
+
+  };
   const handleCreatePatient = (formData) => {
     addPatient(formData);
     closeForm();
   };
+
 
   return (
     <div className="flex flex-col min-h-screen overflow-hidden bg-zinc-200">
@@ -425,6 +457,13 @@ function JaneHopkinsDoctor() {
                               >
                                 Give a Dose
                               </button>
+                              <button
+                                onClick={() => openVisitForm(patient)}
+                                className="text-white bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded"
+                              >
+                                Add Visit
+                                
+                              </button>
                             </Fragment>
                           )}
                         </td>
@@ -518,30 +557,68 @@ function JaneHopkinsDoctor() {
       </main>
       <Footer />
       {showForm && (
+            <div className="flex flex-col h-full overflow-y-scroll">
         <div
           className="fixed inset-0 flex items-center justify-center z-50"
           style={{
             backgroundColor: "rgba(0, 0, 0, 0.5)",
           }}
         >
-          <div
-            className="bg-white w-1/2 h-2/3 p-6 rounded shadow-lg"
-            style={{
-              maxWidth: "90%",
-              maxHeight: "90%",
-            }}
+         <div
+          className="bg-white w-1/2 p-6 rounded shadow-lg"
+          style={{
+            maxWidth: "95%",
+            maxHeight: "95%",
+            overflow: "auto"
+         }}
           >
+
             <button
               onClick={closeForm}
               className="float-right text-gray-700 hover:text-gray-900"
             >
               &times;
             </button>
-            <CreatePatientForm onSubmit={handleCreatePatient} />
+            <CreatePatientForm onSubmit={handleCreatePatient} className="form-container" style={{ height: "500px", overflow: "auto" }}/>
+
+         
+
+
           </div>
         </div>
+        </div>
       )}
+    
+  {showVisitForm && (
+    <div className="flex flex-col h-full overflow-y-scroll">
+    <div
+      className="fixed inset-0 flex items-center justify-center z-50"
+      style={{
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+      }}
+    >
+          <div
+          className="bg-white w-1/2 p-6 rounded shadow-lg"
+          style={{
+            maxWidth: "95%",
+            maxHeight: "95%",
+            overflow: "auto"
+         }}
+      >
+        <button
+          onClick={closeVisitForm}
+          className="float-right text-gray-700 hover:text-gray-900"
+        >
+          &times;
+        </button>
+        <AddVisitForm onSubmit={(formData)=> handleAddVisit(formData, editingPatient)} />
+      </div>
     </div>
+    </div>
+  )}
+</div>
+
+
   );
 }
 export default JaneHopkinsDoctor;

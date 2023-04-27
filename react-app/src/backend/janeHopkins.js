@@ -64,7 +64,7 @@ const addPatient = async({name="Unknown", patientPicture="None", dob="1970-01-01
                           currentlyInsured="Unknown", icdHealthCodes=[], allergies=[]}) => {
     // Exclude ICD-10 Pregnancy codes - O00–O99
     // Exclude DOB greater than 1/1/2005
-    const hasPregnancyCode = icdHealthCodes.some(code => code.code.startsWith('O'));
+    const hasPregnancyCode = icdHealthCodes.some(code => code.code && code.code.startsWith('O'));
     const isBefore2005 = new Date(dob) < new Date('2005-01-01');
     const eligibility = !hasPregnancyCode && isBefore2005;
     const currentTotalDoses = 0;
@@ -219,34 +219,45 @@ const givePatientDose = async (drug, patientUuid) => {
 // Update visits array of the patient by adding a new visit object
 // with the visit date and visit notes
 // check for duplicate visits
-const addPatientVisit = async (patient, dateTime, notes) => {
+const addPatientVisit = async (patient, dateTime, notes, hivViralLoad) => {
+  console.log("addPatientVisit", patient);
+
+  if (!patient || !patient._id) {
+    console.error("Invalid patient"); 
+    return;
+  }
+
+  console.log("addPatientVisit", patient.currentDoseFid);
+  const visit = {
+    dateTime: dateTime,
+    notes: notes,
+    hivViralLoad: hivViralLoad,
+    prevDoseFid: prevDoseFid
+  
+  };
+  console.log("addPatientVisit", visit);
+
+  // check for duplicate visits
+  const patientVisits = patient.visits;
+  console.log("addPatientVisit", patientVisits);
+  for (let i = 0; i < patientVisits.length; i++) {
+    if (patientVisits[i].dateTime === dateTime) {
+      console.log("Duplicate visit");
+      return;
+    }
+  }
+
+  const visits = [...patient.visits, visit];
+  console.log("addPatientVisit", visits);
+
+
 
   
-  if (!patient.patient || !patient.patient._id) {
-    console.log("Invalid patient");
-    return;
-  }
-
-  const visits = patient.patient.visits;
-  const visit = visits.find(visit => visit.dateTime === dateTime);
-  if (visit) {
-    console.log("Duplicate visit");
-    return;
-  }
-
-  const newVisit = { dateTime:patient.dateTime, notes:patient.notes};
-  //push
-  visits.push(newVisit);
-
   const updatePatientVisitsResponse = await entities.patient.update(
-{ _id: patient.patient._id, visits }
+    { _id: patient._id, visits }
   );
   console.log("addPatientVisit", updatePatientVisitsResponse);
-
-  return patient.patient;
-
-
- 
+  
 }
 
 
