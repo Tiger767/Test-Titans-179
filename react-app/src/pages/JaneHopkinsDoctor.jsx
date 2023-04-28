@@ -15,6 +15,7 @@ import {
   addPatient,
   addPatientVisit,
 } from "../backend/janeHopkins";
+import ShowVisitForm from "../components/ShowVisitForm";
 
 //The Doctor Page
 function JaneHopkinsDoctor() {
@@ -98,6 +99,23 @@ function JaneHopkinsDoctor() {
     setEditingPatient(null);
 
   }
+  const [showShowVisitForm, setShowShowVisitForm] = React.useState(false);
+const [Visits, setVisits] = React.useState([]);
+  const closeShowVisitForm = () => {
+    setShowShowVisitForm(false);
+    setEditingPatient(null);
+    setVisits(null);
+  };
+  
+  const openShowVisitForm = (patient) => {
+    if(patient){
+    setShowShowVisitForm(true);
+    setEditingPatient(patient);
+    setVisits(patient.visits);
+    }
+  };
+
+
 
   
   
@@ -464,6 +482,12 @@ function JaneHopkinsDoctor() {
                                 Add Visit
                                 
                               </button>
+                              <button
+                                onClick={() => openShowVisitForm(patient)}
+                                className="text-white bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded"
+                              >
+                                Show Visits
+                                </button>
                             </Fragment>
                           )}
                         </td>
@@ -616,6 +640,34 @@ function JaneHopkinsDoctor() {
     </div>
     </div>
   )}
+  {showShowVisitForm && (
+  <div className="flex flex-col h-full overflow-y-scroll">
+    <div
+      className="fixed inset-0 flex items-center justify-center z-50"
+      style={{
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+      }}
+    >
+      <div
+        className="bg-white w-1/2 p-6 rounded shadow-lg"
+        style={{
+          maxWidth: "95%",
+          maxHeight: "95%",
+          overflow: "auto",
+        }}
+      >
+        <button
+          onClick={closeShowVisitForm}
+          className="float-right text-gray-700 hover:text-gray-900"
+        >
+          &times;
+        </button>
+        <ShowVisitForm visits={Visits} />
+      </div>
+    </div>
+  </div>
+)}
+
 </div>
 
 

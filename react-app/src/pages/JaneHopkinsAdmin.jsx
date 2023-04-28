@@ -8,6 +8,7 @@ import {
   editPatient,
   sharePatients,
   getAllDrugs,
+  CheckTrialComplete,
 } from "../backend/janeHopkins";
 import { Form } from "react-router-dom";
 import CreatePatient from "../pages/CreatePatient";
@@ -56,6 +57,13 @@ function JaneHopkinsAdmin() {
     });
     setPatients(updatedPatients);
     setEditingPatient(null);
+  };
+  const handleTrialCompleteModal = async () => {
+if(CheckTrialComplete == true){
+  alert("Trial Complete")
+}else{
+  alert("Trial Incomplete")
+  };
   };
 
   //Search filter by name
@@ -127,8 +135,19 @@ function JaneHopkinsAdmin() {
                 >
                   Share Eligible Patient Info (End of Trial)
                 </button>
+                <button
+                  class="bg-purple-700 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded-full"
+                  type="button"
+                  onClick={() => CheckTrialComplete()}
+                  style={{ width: "50%", height: "100%" }}
+                >
+                  Check Trial Complete
+                </button>
+            
+
 
                 <div style={{ marginLeft: "auto", marginRight: "50px" }}></div>
+            
 
                 <table
                   className="mw-100 divide-y divide-gray-200"

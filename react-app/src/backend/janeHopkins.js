@@ -53,7 +53,17 @@ const editPatient = async (updatedPatient) => {
 
 
 
-
+const CheckTrialComplete = async () => {
+    const allPatients = await entities.patient.list();
+    
+    for(let i = 0; i < allPatients.items.length; i++){
+        if(allPatients.items[i].currentTotalDoses == 5){
+            return true;
+        }else {
+            return false;
+        }
+    }
+}
  
 // Doctor
 // Need to be able to add a patient and check elgiibility and assign uuid
@@ -227,7 +237,8 @@ const addPatientVisit = async (patient, dateTime, notes, hivViralLoad) => {
     return;
   }
 
-  console.log("addPatientVisit", patient.currentDoseFid);
+  const prevDoseFid = patient.currentDoseFid;
+  
   const visit = {
     dateTime: dateTime,
     notes: notes,
@@ -562,4 +573,4 @@ const addTestsPatients = async() => {
 }
 
 
-export { addPatient, getAllDrugs, getAllPatients, getEligiblePatients, sharePatients, addPatientVisit, editPatient, addPatientDrug, getPatient, removeAllPatients, givePatientDose, addTestsPatients };
+export { addPatient, getAllDrugs, getAllPatients, getEligiblePatients, sharePatients, addPatientVisit, editPatient, addPatientDrug, getPatient, removeAllPatients, givePatientDose, addTestsPatients, CheckTrialComplete };

@@ -162,19 +162,7 @@ const CreatePatientForm = ({ onSubmit }) => {
           </div>
   
           <div className="grid grid-cols-3 gap-4">
-            <div>
-              <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="doses">
-                Doses
-              </label>
-              <input
-                id="doses"
-                type="text"
-                className="form-input w-full text-gray-800"
-                placeholder="2"
-                value={doses}
-                onChange={(event) => setDoses(event.target.value)}
-              />
-            </div>
+          
             <div>
               <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="height">
                 Height
