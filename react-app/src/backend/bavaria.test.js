@@ -3,8 +3,6 @@ import { createVendiaClient } from '@vendia/client';
 
 jest.mock('@vendia/client');
 
-// TODO: FINISH AND ADAPT TEST
-
 describe('Bavaria', () => {
   beforeEach(() => {
     createVendiaClient.mockClear();
