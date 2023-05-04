@@ -116,7 +116,7 @@ function Bavaria() {
   return (
     <div className="flex flex-col min-h-screen overflow-hidden bg-zinc-200">
       <Header />
-      <main className="grow ml-80">
+      <main className="grow ml-100">
         <div
           className="relative max-w-6xl mx-auto h-0 pointer-events-none"
           aria-hidden="true"
@@ -377,21 +377,6 @@ function Bavaria() {
                 </table>
               </div>
             </div>
-
-            <SideBar
-              firstItem="Dashboard"
-              secondItem="Users"
-              thirdItem="Notes"
-              fourthItem="Payroll"
-              fifthItem="Settings"
-              sixthItem="Sign Out"
-              firstIcon="browsers-outline"
-              secondIcon="person-outline"
-              thirdIcon="reader-outline"
-              fourthIcon="today-outline"
-              fifthIcon="settings-outline"
-              sixthIcon="log-out-outline"
-            />
           </div>
         </section>
       </main>

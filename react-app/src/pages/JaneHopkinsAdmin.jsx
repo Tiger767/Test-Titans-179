@@ -59,11 +59,11 @@ function JaneHopkinsAdmin() {
     setEditingPatient(null);
   };
   const handleTrialCompleteModal = async () => {
-if(CheckTrialComplete == true){
-  alert("Trial Complete")
-}else{
-  alert("Trial Incomplete")
-  };
+    if(CheckTrialComplete() === true){
+      alert("Trial Complete")
+    }else{
+      alert("Trial Incomplete")
+      };
   };
 
   //Search filter by name
@@ -87,7 +87,7 @@ if(CheckTrialComplete == true){
   return (
     <div className="flex flex-col min-h-screen overflow-hidden bg-zinc-200">
       <Header />
-      <main className="grow ml-80">
+      <main className="grow ml-100">
         <div
           className="relative max-w-6xl mx-auto h-0 pointer-events-none"
           aria-hidden="true"
@@ -138,13 +138,11 @@ if(CheckTrialComplete == true){
                 <button
                   class="bg-purple-700 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded-full"
                   type="button"
-                  onClick={() => CheckTrialComplete()}
+                  onClick={() => handleTrialCompleteModal()}
                   style={{ width: "50%", height: "100%" }}
                 >
                   Check Trial Complete
                 </button>
-            
-
 
                 <div style={{ marginLeft: "auto", marginRight: "50px" }}></div>
             
@@ -383,21 +381,6 @@ if(CheckTrialComplete == true){
                 </table>
               </div>
             </div>
-
-            <SideBar
-              firstItem="Dashboard"
-              secondItem="Users"
-              thirdItem="Notes"
-              fourthItem="Payroll"
-              fifthItem="Settings"
-              sixthItem="Sign Out"
-              firstIcon="browsers-outline"
-              secondIcon="person-outline"
-              thirdIcon="reader-outline"
-              fourthIcon="today-outline"
-              fifthIcon="settings-outline"
-              sixthIcon="log-out-outline"
-            />
           </div>
         </section>
       </main>

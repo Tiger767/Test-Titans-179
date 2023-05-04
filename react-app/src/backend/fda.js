@@ -5,7 +5,7 @@ import { createACLs, uuidv4 } from "./utils";
 const client = createVendiaClient({
     apiUrl: `https://tzgw4sn810.execute-api.us-west-1.amazonaws.com/graphql/`,
     websocketUrl: `wss://hubar5s936.execute-api.us-west-1.amazonaws.com/graphql`,
-    apiKey: 'jTyPVpbcwND2f74jResNLbfQW7UUwxbHokdgngxLAJs',
+    apiKey: 'BmRevkh6aABKZTQK9heeFguqEzWsgfHAzLwXQdgWrUGx',
 })
 
 const {entities} = client;

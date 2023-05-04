@@ -5,7 +5,7 @@ import { createACLs, uuidv4,} from "./utils";
 const client = createVendiaClient({
     apiUrl: `https://tmrzu1evol.execute-api.us-west-1.amazonaws.com/graphql/`,
     websocketUrl: `wss://67d5g30ik1.execute-api.us-west-1.amazonaws.com/graphql`,
-    apiKey: 'TeYofPjKqymAweJt2d148WqBC3BektvwLxsi5G4Tvoh',
+    apiKey: 'E75wyXwBpjRrsszknmQyUx9ty3kFgDJjAeG4Ggcbvoqk',
 })
 
 const {entities} = client;
@@ -55,14 +55,18 @@ const editPatient = async (updatedPatient) => {
 
 const CheckTrialComplete = async () => {
     const allPatients = await entities.patient.list();
-    
+    if (allPatients.items.length == 0) {
+      return false;
+    }
+
     for(let i = 0; i < allPatients.items.length; i++){
-        if(allPatients.items[i].currentTotalDoses == 5){
-            return true;
-        }else {
+        if(allPatients.items[i].currentTotalDoses == 2){  // use 5
+            // pass
+        } else if (allPatients.items[i].eligibility) {
             return false;
         }
     }
+    return true;
 }
  
 // Doctor
@@ -175,6 +179,7 @@ const addPatientDrug = async (patient) => {
 
   if (dose === undefined) {
     console.log("No doses available");
+    alert("No doses available");
     return;
   }
 
@@ -563,7 +568,7 @@ const addTestsPatients = async() => {
       ],
     }
   ];
-  const all_patients = patients.concat(generateRandomPatients(20));
+  const all_patients = patients.concat(generateRandomPatients(4));
   
 
   for (let i = 0; i < all_patients.length; i++) {
