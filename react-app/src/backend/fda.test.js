@@ -8,13 +8,7 @@ shareDoseAssignments,
 } from './fda';
 import { createVendiaClient } from '@vendia/client';
 
-jest.mock('@vendia/client');
-
 describe('FDA', () => {
-  beforeEach(() => {
-    createVendiaClient.mockClear();
-  });
-
   test('getEligiblePatients', async () => {
     const mockList = jest
     .fn()

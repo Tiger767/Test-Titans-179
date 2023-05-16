@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 driver = webdriver.Chrome()
 
 # Visit the website
-driver.get("http://localhost:5123/bavaria")
+driver.get("http://localhost:5173/bavaria")
 
 # Test the search functionality
 search_input = driver.find_element_by_xpath("//input[@placeholder='Search Patients']")

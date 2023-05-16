@@ -1,13 +1,8 @@
 import { getParticipants, addBatchDrug, getAllDrugs, removeAllDrugs } from './bavaria';
 import { createVendiaClient } from '@vendia/client';
 
-jest.mock('@vendia/client');
 
 describe('Bavaria', () => {
-  beforeEach(() => {
-    createVendiaClient.mockClear();
-  });
-
   test('getParticipants', async () => {
     const mockList = jest.fn().mockResolvedValue({ items: ['participant1', 'participant2'] });
     createVendiaClient.mockReturnValue({ entities: { patient: { list: mockList } } });
